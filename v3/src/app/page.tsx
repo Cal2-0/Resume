@@ -401,7 +401,7 @@ export default function Home() {
               <a href="https://drive.google.com/drive/folders/1gNPyJx2IGMiuiAnxAsXEFTsWFY19vUZs?usp=sharing" target="_blank" rel="noopener noreferrer"><HardDrive className="w-5 h-5" /> Drive</a>
             </GradientButton>
             <GradientButton className="gap-2 shrink-0" asChild>
-              <a href="#" target="_blank" rel="noopener noreferrer"><FileText className="w-5 h-5" /> Resume</a>
+              <a href="/Calvin_Dsouza_Resume.pdf" download="Calvin_Dsouza_Resume.pdf"><FileText className="w-5 h-5" /> Resume</a>
             </GradientButton>
           </div>
 

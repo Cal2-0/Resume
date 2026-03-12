@@ -93,7 +93,7 @@ export const DraggableContainer = ({
       <div className="h-dvh overflow-hidden relative" id="memoirs">
 
         {/* Title Overlay overlayed on top of the draggable grid */}
-        <div className="absolute top-12 left-0 right-0 z-10 pointer-events-none text-center">
+        <div className="absolute top-12 left-0 right-0 z-30 pointer-events-none text-center">
           <h2 className="text-4xl md:text-6xl font-semibold text-white tracking-tight mb-4 font-heading">
             Memoirs <span className="text-indigo-400">&</span> Milestones
           </h2>
@@ -107,7 +107,7 @@ export const DraggableContainer = ({
         >
           <motion.div
             className={cn(
-              "grid h-fit w-fit cursor-grab grid-cols-[repeat(2,1fr)] bg-black active:cursor-grabbing will-change-transform",
+              "grid h-fit w-fit cursor-grab grid-cols-[repeat(2,max-content)] bg-black active:cursor-grabbing will-change-transform",
               className,
             )}
             drag
