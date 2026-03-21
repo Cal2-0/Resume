@@ -1,0 +1,44 @@
+.introduction {
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-inline: 60px;
+  padding-bottom: 30px;
+  position: fixed;
+  z-index: 99;
+  background-color: #050505;
+}
+
+.introduction svg {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: calc(100% + 300px);
+}
+
+.introduction svg path {
+  fill: #050505;
+}
+
+.introduction p {
+  display: flex;
+  color: #d4512a;
+  font-size: 10rem;
+  font-family: inherit;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+}
+
+.introduction .skipHint {
+  position: absolute;
+  bottom: 20px;
+  left: 60px;
+  color: #d4512a;
+  font-size: 20px;
+  font-family: inherit;
+  opacity: 0.8;
+  z-index: 1;
+}
