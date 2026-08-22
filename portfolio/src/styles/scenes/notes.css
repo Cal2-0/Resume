@@ -1,0 +1,107 @@
+/* Scene 04: Field Notes (Blog) */
+.notes-scene {
+  background-color: var(--color-paper);
+  padding: var(--space-10) 0;
+  min-height: 100vh;
+}
+
+.notes-header {
+  padding: 0 var(--grid-margin);
+  margin-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.notes-title {
+  font-family: var(--font-display);
+  font-size: var(--type-display);
+  color: var(--color-ink);
+  line-height: 0.9;
+}
+
+.notes-meta {
+  font-family: var(--font-mono);
+  font-size: var(--type-caption);
+  color: var(--color-silver);
+  text-align: right;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--grid-gutter);
+  padding: 0 var(--grid-margin);
+}
+
+.note-card {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-rule);
+  transition: transform var(--duration-interface) var(--ease-out);
+}
+
+.note-card:hover {
+  transform: translateY(-4px);
+}
+
+.note-visual {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-silver);
+}
+
+.note-category {
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  color: var(--color-plum);
+  text-transform: uppercase;
+}
+
+.note-title {
+  font-family: var(--font-display);
+  font-size: var(--type-subhead);
+  line-height: var(--leading-tight);
+  color: var(--color-ink);
+}
+
+.note-excerpt {
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  color: var(--color-graphite);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.note-date {
+  font-family: var(--font-mono);
+  font-size: var(--type-caption);
+  color: var(--color-ash);
+  margin-top: auto;
+}
+
+@media (max-width: 1024px) {
+  .note-card {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 768px) {
+  .note-card {
+    grid-column: span 12;
+  }
+}

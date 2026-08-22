@@ -1,0 +1,135 @@
+/* Contact CSS */
+.contact-section {
+  background-color: var(--color-bg);
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-xl);
+  text-align: center;
+  position: relative;
+}
+
+.chapter-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-md);
+}
+
+.contact-title {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  color: var(--color-accent-primary);
+  margin-bottom: var(--space-md);
+  line-height: 1.1;
+}
+
+.contact-blurb {
+  font-family: var(--font-body);
+  font-size: 20px;
+  max-width: 600px;
+  margin: 0 auto var(--space-lg);
+  color: var(--color-text-body);
+}
+
+.contact-sticky {
+  width: 400px;
+  height: 250px;
+  background: var(--color-highlight-yellow);
+  padding: 40px;
+  margin: 40px auto;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transform: rotate(-2deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.contact-sticky:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.contact-sticky .sticky-folded-corner {
+  position: absolute;
+  top: 0; right: 0;
+  border-width: 0 40px 40px 0;
+  border-style: solid;
+  border-color: transparent rgba(0,0,0,0.1) transparent transparent;
+}
+
+.contact-sticky .sticky-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--color-text-body);
+  margin-bottom: 20px;
+}
+
+.contact-sticky .email-link {
+  font-family: var(--font-typewriter);
+  font-size: 28px;
+  color: var(--color-accent-primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .contact-sticky {
+    width: 90%;
+    height: auto;
+    padding: 30px 20px;
+  }
+}
+
+.social-links {
+  margin: var(--space-xl) 0;
+}
+
+.social-label {
+  font-family: var(--font-handwritten);
+  font-size: 24px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.social-badges {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.social-badge {
+  font-size: 18px !important;
+  padding: 12px 24px !important;
+  cursor: pointer;
+}
+
+.quote-box {
+  margin: var(--space-xl) auto;
+  max-width: 400px;
+  background: white;
+  padding: 30px;
+  border: 2px dashed rgba(0,0,0,0.2);
+  transform: rotate(1deg);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.quote-box p {
+  font-family: var(--font-handwritten);
+  font-size: 28px;
+  color: var(--color-text-body);
+  margin: 0;
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 20px 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--color-text-muted);
+  border-top: 2px dashed rgba(0,0,0,0.1);
+  margin-top: var(--space-xl);
+  line-height: 1.6;
+}

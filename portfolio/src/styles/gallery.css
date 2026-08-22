@@ -1,0 +1,39 @@
+/* Gallery CSS */
+.gallery-section {
+  background-color: var(--color-bg);
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+.gallery-title {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  color: var(--color-text-body);
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.projects-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding: 40px;
+  justify-items: center;
+}
+
+.gallery-polaroid {
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .projects-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-gallery {
+    grid-template-columns: 1fr;
+    padding: 20px 0;
+  }
+}

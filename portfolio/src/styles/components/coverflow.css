@@ -1,0 +1,125 @@
+.cf-carousel-container {
+  width: 100%;
+  position: relative;
+}
+
+.cf-carousel-frame {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-8) 0;
+  outline: none;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.cf-carousel-frame:active {
+  cursor: grabbing;
+}
+
+.cf-carousel-track {
+  position: relative;
+  user-select: none;
+  transform-style: preserve-3d;
+}
+
+.cf-card-wrapper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--color-ink);
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+  will-change: transform;
+}
+
+.cf-card-image {
+  height: 100%;
+  width: 100%;
+  user-select: none;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.cf-nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  border-radius: 50%;
+  background: rgba(36, 36, 36, 0.7);
+  padding: var(--space-2);
+  color: var(--color-paper);
+  border: 1px solid var(--color-rule);
+  backdrop-filter: blur(4px);
+  transition: background-color 0.3s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cf-nav-button:hover {
+  background: var(--color-ink);
+}
+
+.cf-nav-button-left {
+  left: var(--space-4);
+}
+
+.cf-nav-button-right {
+  right: var(--space-4);
+}
+
+.cf-caption {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--space-6);
+  text-align: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.cf-caption-title {
+  font-family: var(--font-display);
+  font-size: var(--type-subtitle);
+  color: var(--color-white);
+  margin-bottom: var(--space-1);
+}
+
+.cf-caption-subtitle {
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  color: var(--color-silver);
+}
+
+.cf-pagination {
+  margin-top: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.cf-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-paper);
+  transition: opacity 0.3s;
+  opacity: 0.3;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cf-dot.active {
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

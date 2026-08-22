@@ -1,0 +1,88 @@
+/* Scene 04: The Lab Bench */
+.lab-scene {
+  padding: var(--space-8) 0;
+  background-color: var(--color-bg-dark);
+  border-top: 1px dashed var(--color-rule);
+}
+
+.lab-header {
+  margin-bottom: var(--space-6);
+}
+
+.lab-title {
+  font-family: var(--font-display);
+  font-size: var(--type-subhead);
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+.lab-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--type-caption);
+  color: var(--color-graphite);
+  margin-top: var(--space-2);
+  max-width: 600px;
+}
+
+.lab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.lab-item {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-rule);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: all var(--duration-interface) var(--ease-out);
+}
+
+.lab-item:hover {
+  border-color: var(--color-cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 229, 255, 0.05);
+}
+
+.lab-item-title {
+  font-family: var(--font-display);
+  font-size: var(--type-large);
+  color: var(--color-white);
+}
+
+.lab-item-desc {
+  font-family: var(--font-body);
+  font-size: var(--type-caption);
+  color: var(--color-ash);
+  line-height: var(--leading-normal);
+  flex-grow: 1;
+}
+
+.lab-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--color-rule);
+  padding-top: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.lab-item-id {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-gold);
+}
+
+.lab-item-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-silver);
+  text-decoration: none;
+  transition: color var(--duration-micro) var(--ease-out);
+}
+
+.lab-item-link:hover {
+  color: var(--color-cyan);
+}

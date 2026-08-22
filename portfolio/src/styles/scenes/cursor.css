@@ -1,0 +1,23 @@
+.bureau-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--color-cyan);
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: normal;
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+/* Hide native cursor for the awwwards effect */
+body {
+  cursor: none;
+}
+
+a, button, .archive-item, .tx-card {
+  cursor: none;
+}

@@ -1,0 +1,66 @@
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { transmissions } from '../../data/transmissions';
+import '../../styles/scenes/evidence.css';
+import { CoverflowCarousel } from '../ui/CoverflowCarousel';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const FieldEvidence = () => {
+  const evidenceRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.evidence-header', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.evidence-scene',
+          start: 'top 80%',
+        }
+      });
+      gsap.from('.cf-carousel-container', {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.out',
+        delay: 0.2,
+        scrollTrigger: {
+          trigger: '.evidence-scene',
+          start: 'top 80%',
+        }
+      });
+    }, evidenceRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const slides = transmissions
+    .filter(tx => tx.image)
+    .map(tx => ({
+      src: tx.image,
+      alt: tx.type,
+      title: `${tx.type} // ${tx.date}`,
+      subtitle: tx.content.substring(0, 100) + '...',
+    }));
+
+  return (
+    <section className="evidence-scene" ref={evidenceRef} style={{ paddingBottom: '6rem' }}>
+      <div className="bureau-container">
+        <div className="evidence-header" style={{ marginBottom: '4rem' }}>
+          <h2 className="evidence-title">FIELD EVIDENCE</h2>
+          <span className="evidence-subtitle">VERIFIABLE CLAIMS // EVENTS</span>
+        </div>
+
+        <div className="evidence-carousel-wrapper" style={{ width: '100%', overflow: 'hidden' }}>
+          <CoverflowCarousel slides={slides} />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default FieldEvidence;

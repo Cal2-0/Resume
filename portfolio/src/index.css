@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap');
+
+:root {
+  /* === LUXURY CYBER-NOIR PALETTE === */
+  --color-bg-dark: #0A0A0B;
+  --color-paper: #111113;
+  --color-white: #F3F4F6;
+  --color-cream: #E5E5E5;
+
+  --color-ink: #F3F4F6;
+  --color-graphite: #9CA3AF;
+  --color-ash: #6B7280;
+  --color-silver: #4B5563;
+
+  /* Luxury Accents */
+  --color-gold: #E8D5B5; /* Champagne Gold */
+  --color-violet: #8B5CF6; /* Electric Violet */
+  --color-plum: #6D28D9;
+  
+  /* Retaining mapped names for compatibility, but updating values */
+  --color-cyan: #E8D5B5; /* Re-mapped to Gold */
+  --color-red: #8B5CF6; /* Re-mapped to Violet */
+
+  --color-rule: #1F2937;
+  --color-hover: rgba(232, 213, 181, 0.08);
+  --color-selection: rgba(139, 92, 246, 0.4);
+  --color-overlay: rgba(10, 10, 11, 0.9);
+
+  /* === TYPOGRAPHY === */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Typographic Scale */
+  --type-hero: clamp(80px, 12vw, 180px);
+  --type-display: clamp(48px, 8vw, 140px);
+  --type-heading: clamp(36px, 5vw, 80px);
+  --type-subhead: clamp(24px, 3vw, 48px);
+  --type-large: clamp(20px, 2vw, 28px);
+  --type-body: clamp(16px, 1.2vw, 19px);
+  --type-caption: clamp(12px, 1vw, 14px);
+  --type-label: clamp(10px, 0.8vw, 12px);
+  --type-stat: clamp(48px, 7vw, 120px);
+
+  /* Line Heights */
+  --leading-tight: 1.1;
+  --leading-normal: 1.5;
+  --leading-loose: 1.8;
+
+  /* === SPACING SCALE === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+  --space-9: 128px;
+  --space-10: 200px;
+
+  /* === GRID === */
+  --grid-columns: 12;
+  --grid-gutter: clamp(16px, 2vw, 32px);
+  --grid-margin: clamp(20px, 5vw, 120px);
+  --grid-max-width: 1440px;
+
+  /* === MOTION TOKENS === */
+  --duration-micro: 150ms;
+  --duration-interface: 400ms;
+  --duration-editorial: 800ms;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  line-height: var(--leading-normal);
+  color: var(--color-ink);
+  background-color: var(--color-bg-dark);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Global CRT Noise Overlay */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background-color: var(--color-selection);
+  color: var(--color-bg-dark);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--color-ink);
+  line-height: var(--leading-tight);
+}
+
+/* Luxurious Glows for major headings */
+h1, h2 {
+  text-shadow: 0 0 15px rgba(232, 213, 181, 0.15); /* Gold glow */
+}
+
+a {
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: all var(--duration-micro) ease-out;
+}
+
+a:hover {
+  color: var(--color-violet);
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Base Bureau Container */
+.bureau-container {
+  max-width: var(--grid-max-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-margin);
+}
+
+.bureau-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gutter);
+}
+
+.bureau-rule {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-rule);
+  margin: var(--space-6) 0;
+  border: none;
+}

@@ -1,0 +1,219 @@
+/* Scene 08: Footer / Contact — THE BUREAU Signature */
+.bureau-footer {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  padding: var(--space-8) 0;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Section label bar */
+.footer-section-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ash);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-graphite);
+  padding-bottom: var(--space-3);
+}
+
+/* Main CTA */
+.footer-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-6) 0;
+}
+
+.footer-reveal-text {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 8vw, 100px);
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--color-white);
+  white-space: nowrap;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.footer-blurb {
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+  color: var(--color-silver);
+  line-height: var(--leading-normal);
+  max-width: 500px;
+}
+
+.footer-email-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--type-large);
+  color: var(--color-ink);
+  background-color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  padding: var(--space-3) var(--space-5);
+  border-radius: 2px;
+  transition: all var(--duration-interface) var(--ease-out);
+  text-decoration: none;
+  box-shadow: 0 0 20px rgba(232, 213, 181, 0.3);
+}
+
+.footer-email-btn:hover {
+  background-color: transparent;
+  color: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(232, 213, 181, 0.5);
+}
+
+.footer-email-btn .arrow {
+  transition: transform var(--duration-interface) var(--ease-out);
+}
+
+.footer-email-btn:hover .arrow {
+  transform: translate(4px, -4px);
+}
+
+/* ── Signature Block ────────────────────────────────────── */
+.footer-signature {
+  margin-top: var(--space-6);
+}
+
+.signature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  border-top: 1px solid var(--color-graphite);
+  padding-top: var(--space-6);
+}
+
+.signature-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ash);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.footer-val {
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  color: var(--color-silver);
+}
+
+.signature-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-white);
+  letter-spacing: 0.02em;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  color: var(--color-silver);
+  text-decoration: none;
+  transition: color var(--duration-micro) var(--ease-out);
+}
+
+.footer-links a:hover {
+  color: var(--color-gold);
+}
+
+.footer-status-active {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #34D399;
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
+  animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+  0% { opacity: 0.6; box-shadow: 0 0 6px rgba(52, 211, 153, 0.4); }
+  50% { opacity: 1; box-shadow: 0 0 14px rgba(52, 211, 153, 0.8); }
+  100% { opacity: 0.6; box-shadow: 0 0 6px rgba(52, 211, 153, 0.4); }
+}
+
+/* Signature bottom */
+.signature-rule {
+  width: 100%;
+  height: 1px;
+  background: var(--color-graphite);
+  margin: var(--space-6) 0 var(--space-4) 0;
+}
+
+.signature-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signature-copyright {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ash);
+  letter-spacing: 0.1em;
+}
+
+.signature-built {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ash);
+  letter-spacing: 0.1em;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .signature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-section-label {
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  
+  .signature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .signature-bottom {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+  }
+}
