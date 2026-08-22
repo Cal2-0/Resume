@@ -57,15 +57,7 @@ const Hero = () => {
 
       // 2. Cinematic Scroll Parallax (Scrubbed Pinned Scene)
       if (!isMobile) {
-        const tlScroll = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: '+=200%', // Scroll for 2 screen heights
-            pin: true,
-            scrub: 1, // Smooth scrubbing
-          }
-        });
+        const tlScroll = gsap.timeline();
 
         tlScroll
           // Phase 1: Entry Content moves up and fades out
@@ -77,7 +69,17 @@ const Hero = () => {
             { opacity: 1, y: 0, duration: 1 }, 0.5)
             
           // Add a pause at the end so you can read the bio before it unpins
-          .to({}, {duration: 0.5});
+          .to({}, { duration: 0.5 });
+
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          pin: stageRef.current,
+          start: 'top top',
+          end: '+=200%',
+          scrub: 1,
+          animation: tlScroll,
+          pinSpacing: true
+        });
       } else {
         // Fallback for mobile: just fade everything in
         gsap.to('.entry-disciplines, .entry-linkedin-btn, .entry-telemetry, .person-content-col', { opacity: 1, y: 0, duration: 1, delay: 1 });
@@ -87,7 +89,7 @@ const Hero = () => {
 
     // 3. Mousemove Parallax on Portrait
     const handleMouseMove = (e) => {
-      if (isMobile) return;
+      if (isMobile || !portraitImgRef.current) return;
       
       const { clientX, clientY } = e;
       const xPos = (clientX / window.innerWidth - 0.5) * 20; // -10px to 10px
@@ -105,6 +107,11 @@ const Hero = () => {
 
     return () => {
       ctx.revert();
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.vars && (st.vars.trigger === containerRef.current || st.vars.pin === stageRef.current)) {
+          st.kill(true);
+        }
+      });
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);

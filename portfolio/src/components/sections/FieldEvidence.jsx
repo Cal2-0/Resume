@@ -18,7 +18,7 @@ const FieldEvidence = () => {
         duration: 0.8,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: '.evidence-scene',
+          trigger: evidenceRef.current,
           start: 'top 80%',
         }
       });
@@ -29,7 +29,7 @@ const FieldEvidence = () => {
         ease: 'power2.out',
         delay: 0.2,
         scrollTrigger: {
-          trigger: '.evidence-scene',
+          trigger: evidenceRef.current,
           start: 'top 80%',
         }
       });
