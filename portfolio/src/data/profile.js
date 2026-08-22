@@ -117,14 +117,14 @@ export const profile = {
       summary: "Multiple Microsoft AI & Forensic certifications"
     },
     leadership: {
-      label: "LEADERSHIP & ORGS",
+      label: "LEADERSHIP & EXTRACURRICULARS",
       icon: "👔",
       entries: [
-        { event: "Junior Branch Representative", result: "INCREDIA, NMAMIT", date: "2025 – 26", detail: "Oversaw logistics and budget allocation for 20+ member teams across departmental events." },
-        { event: "Core Member", result: "PROTON, Cybersecurity Dept", date: "2025 – 26", detail: "Co-organised CTFs, 'Game of Conquest', and 'Fish Tank' entrepreneurial pitch events for 70+ students." },
-        { event: "Program Committee Head", result: "CSI NMAMIT", date: "Aug 2026 - Present", detail: "Coordination between administration, event teams, and departments." },
+        { event: "Program Committee Head", result: "CSI Student Branch, NMAMIT", date: "2026 – Present", detail: "Lead program planning and cross-team coordination for technical events, working with student teams, administration, permissions, and venue logistics." },
+        { event: "Event Coordinator", result: "PROTON, NMAMIT Cybersecurity Dept.", date: "2026 – Present", detail: "Coordinate cybersecurity events and technical programs, managing execution across teams, logistics, and participants." },
+        { event: "Class Representative", result: "NMAMIT", date: "2025 – 26", detail: "Represented 70+ students while co-organising CTFs and student-led technical and entrepreneurial events." },
       ],
-      summary: "Active leadership in tech clubs & event org"
+      summary: "Active leadership in CSI, PROTON & Class Rep"
     }
   }
 };
