@@ -15,7 +15,8 @@ export const profile = {
   contact: {
     email: "calvinja320@gmail.com",
     linkedin: "https://linkedin.com/in/calvin-jude-dsouza",
-    github: "https://github.com/Cal2-0"
+    github: "https://github.com/Cal2-0",
+    instagram: "https://www.instagram.com/_______.cal/"
   },
   stats: [
     { value: "12", label: "SELECTED WORKS" },
