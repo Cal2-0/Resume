@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import { initSmoothScroll, lenisInstance } from './utils/smoothScroll';
 import { initScrollAnimations } from './utils/animations';
 
@@ -23,15 +24,20 @@ import './index.css';
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
-  const navType = useNavigationType();
 
   useEffect(() => {
-    // If the user hit the back button, let the browser handle scroll restoration
-    if (navType === 'POP') return;
+    // 1. Immediately reset standard window scroll
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
+    // 2. Immediately reset smooth-scroll Lenis instance
+    if (lenisInstance) {
+      lenisInstance.scrollTo(0, { immediate: true });
+      lenisInstance.resize();
+    }
+
+    // 3. If navigating to a specific hash on home page
     if (hash) {
-      // Small timeout to allow DOM to render
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
           if (lenisInstance) {
@@ -40,25 +46,20 @@ const ScrollToTop = () => {
             element.scrollIntoView({ behavior: 'smooth' });
           }
         }
-      }, 100);
-    } else {
-      if (lenisInstance) {
-        lenisInstance.scrollTo(0, { immediate: true });
-      } else {
-        window.scrollTo(0, 0);
-      }
+      }, 150);
+      return () => clearTimeout(timer);
     }
-    
-    // Refresh ScrollTrigger and trigger a window resize event to allow Lenis to recalculate height
+
+    // 4. Force GSAP ScrollTrigger to recalculate and refresh triggers
     const stTimer = setTimeout(() => {
-      import('gsap/ScrollTrigger').then((st) => {
-        st.default.refresh();
-      });
+      ScrollTrigger.refresh();
+      if (lenisInstance) lenisInstance.resize();
       window.dispatchEvent(new Event('resize'));
-    }, 200);
+    }, 100);
 
     return () => clearTimeout(stTimer);
-  }, [pathname, hash, navType]);
+  }, [pathname, hash]);
+
   return null;
 };
 
