@@ -27,7 +27,7 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     // 1. Immediately reset standard window scroll
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    window.scrollTo(0, 0);
 
     // 2. Immediately reset smooth-scroll Lenis instance
     if (lenisInstance) {
@@ -46,7 +46,7 @@ const ScrollToTop = () => {
             element.scrollIntoView({ behavior: 'smooth' });
           }
         }
-      }, 150);
+      }, 100);
       return () => clearTimeout(timer);
     }
 
@@ -55,7 +55,7 @@ const ScrollToTop = () => {
       ScrollTrigger.refresh();
       if (lenisInstance) lenisInstance.resize();
       window.dispatchEvent(new Event('resize'));
-    }, 100);
+    }, 50);
 
     return () => clearTimeout(stTimer);
   }, [pathname, hash]);

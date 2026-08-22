@@ -1,6 +1,6 @@
 /* Scene 06: Transmissions (LinkedIn) */
 .tx-scene {
-  padding: var(--space-8) 0;
+  padding: 120px 0 var(--space-8);
   background-color: var(--color-bg-dark);
   position: relative;
   z-index: 5;
