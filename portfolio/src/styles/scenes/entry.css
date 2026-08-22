@@ -11,7 +11,7 @@
   flex-direction: column;
   padding: var(--space-8) var(--grid-margin);
   overflow: hidden;
-  background-color: var(--color-bg-dark); /* Ensure background is solid when sticking */
+  background-color: var(--color-bg-dark);
 }
 
 .entry-telemetry {
@@ -78,9 +78,9 @@
   border: 1px solid var(--color-rule);
   overflow: hidden;
   position: relative;
+  min-height: 250px;
 }
 
-/* Grayscale and Contrast filters for cinematic look */
 .entry-portrait-img {
   width: 100%;
   height: 100%;
@@ -106,7 +106,6 @@
   margin-bottom: var(--space-6);
   text-transform: uppercase;
   color: var(--color-white);
-  /* Optional: we can add clip-path tricks later if requested */
 }
 
 .entry-thesis {
@@ -141,6 +140,7 @@
   border: 1px solid var(--color-gold);
   transition: all var(--duration-interface) var(--ease-out);
   box-shadow: 0 0 20px rgba(232, 213, 181, 0.4);
+  text-align: center;
 }
 
 .entry-linkedin-btn:hover {
@@ -160,22 +160,68 @@
 }
 
 @media (max-width: 1024px) {
+  .entry-scene {
+    height: auto;
+    min-height: 100vh;
+    padding: 100px var(--grid-margin) var(--space-6);
+    position: relative;
+  }
+
   .entry-grid {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: var(--space-4);
+    gap: var(--space-6);
   }
+
   .entry-portrait-col {
-    height: 40vh;
+    height: 45vh;
+    min-height: 300px;
   }
+
   .entry-thesis {
     max-width: 100%;
   }
+
   .entry-disciplines {
     justify-content: center;
   }
-  .entry-linkedin-btn {
-    align-self: center;
-    margin: 0 auto;
+
+  .entry-content-col {
+    position: relative !important;
+  }
+
+  .person-content-col {
+    display: none !important;
+  }
+
+  .entry-scroll-indicator {
+    display: none;
+  }
+
+  .entry-telemetry {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .entry-name {
+    font-size: clamp(3rem, 12vw, 5rem);
+    margin-bottom: var(--space-4);
+  }
+
+  .entry-thesis {
+    font-size: 1.1rem;
+    margin-bottom: var(--space-4);
+  }
+
+  .entry-disciplines {
+    gap: var(--space-2);
+    font-size: 0.75rem;
+    margin-bottom: var(--space-4);
+  }
+
+  .entry-portrait-col {
+    height: 38vh;
+    min-height: 240px;
   }
 }

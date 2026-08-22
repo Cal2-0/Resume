@@ -81,8 +81,8 @@ const Hero = () => {
           pinSpacing: true
         });
       } else {
-        // Fallback for mobile: just fade everything in
-        gsap.to('.entry-disciplines, .entry-linkedin-btn, .entry-telemetry, .person-content-col', { opacity: 1, y: 0, duration: 1, delay: 1 });
+        // Fallback for mobile: ensure disciplines and action buttons are visible cleanly
+        gsap.to('.entry-disciplines, .entry-linkedin-btn', { opacity: 1, y: 0, duration: 0.6, delay: 0.2 });
       }
 
     }, containerRef);
