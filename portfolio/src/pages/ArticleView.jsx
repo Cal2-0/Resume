@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getArticleBySlug, getAllArticles } from '../utils/articles';
-import { HeroCinematic, HeroTechnical, HeroEditorial } from '../components/article/ArticleHeroes';
 import MarkdownRenderer from '../components/article/MarkdownRenderer';
 import { ArrowLeft } from 'lucide-react';
 import '../styles/scenes/editorial.css';
@@ -11,82 +10,105 @@ const ArticleView = () => {
   const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [relatedArticle, setRelatedArticle] = useState(null);
-  const [randomArticle, setRandomArticle] = useState(null);
 
   useEffect(() => {
     const data = getArticleBySlug(slug);
     setArticle(data);
     
-    // Pick related & random articles
+    // Pick a related article
     const all = getAllArticles();
     if (all.length > 1) {
       const others = all.filter(a => a.slug !== slug);
-      // Basic related: just grab the next one, or one with same category
       let related = others.find(a => data?.categories?.some(c => a.categories?.includes(c)));
       if (!related) related = others[0];
       setRelatedArticle(related);
-      
-      const randIdx = Math.floor(Math.random() * others.length);
-      setRandomArticle(others[randIdx]);
     }
     
     window.scrollTo(0, 0);
   }, [slug]);
 
-  if (!article) return <div className="article-container" style={{ padding: '20vh' }}>Loading...</div>;
-
-  const renderHero = () => {
-    switch (article.heroType) {
-      case 'CINEMATIC':
-        return <HeroCinematic title={article.title} subtitle={article.subtitle} image={article.heroImage} />;
-      case 'TECHNICAL_BLACK':
-        return <HeroTechnical title={article.title} subtitle={article.subtitle} />;
-      default:
-        return <HeroEditorial title={article.title} subtitle={article.subtitle} />;
-    }
-  };
+  if (!article) return <div className="bureau-container" style={{ padding: '20vh 0', color: 'var(--color-silver)', fontFamily: 'var(--font-mono)' }}>LOCATING FILE...</div>;
 
   return (
-    <article className="article-container">
-      <Link to="/field-notes" style={{ position: 'fixed', top: '100px', left: '2rem', color: 'var(--color-ink)', zIndex: 100 }}>
-        <ArrowLeft size={24} />
-      </Link>
-      
-      {renderHero()}
-      
-      <div className="article-content">
-        <div style={{ gridColumn: '2 / 10', margin: '2rem 0', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--color-silver)' }}>
-          <span style={{ color: 'var(--color-plum)', marginRight: '1rem' }}>[ {article.type || 'DEEP DIVE'} ]</span>
-          {article.date} • {article.readingTime} • {(article.categories || []).join(', ')}
+    <article className="blog-reader-scene">
+      <div className="bureau-container">
+        
+        {/* Navigation Bar */}
+        <div className="reader-nav">
+          <Link to="/writing" className="reader-back-btn">
+            <ArrowLeft size={18} />
+            BACK TO WRITING
+          </Link>
+          <span className="reader-meta-tag">[ {article.type || 'DEEP DIVE'} ]</span>
         </div>
-        
-        <MarkdownRenderer content={article.content} />
-        
-        <div className="article-footer-nav" style={{ flexDirection: 'column', gap: '3rem' }}>
-          <div>
-            <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--color-silver)', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>YOU FOUND THIS IN</span>
-            <Link to={`/field-notes/category/${article.categories?.[0]}`} style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', textDecoration: 'none', color: 'var(--color-ink)' }}>{article.categories?.[0]}</Link>
-          </div>
+
+        {/* Reader Layout: Left Sidebar + Right Content */}
+        <div className="reader-grid">
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-            {relatedArticle && (
-              <div>
-                <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--color-silver)', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>RELATED CASE FILE</span>
-                <Link to={`/field-notes/${relatedArticle.slug}`} style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', textDecoration: 'none', color: 'var(--color-ink)', display: 'block', marginBottom: '0.5rem' }}>
-                  {relatedArticle.title.split(' ')[0]}
-                </Link>
-                <Link to={`/field-notes/${relatedArticle.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textDecoration: 'none', color: 'var(--color-plum)' }}>↗ INVESTIGATE</Link>
+          {/* Left Sidebar (Sticky) */}
+          <aside className="reader-sidebar">
+            <div className="sidebar-sticky">
+              <div className="sidebar-meta-block">
+                <span className="sidebar-meta-label">DATE</span>
+                <span className="sidebar-meta-value">{article.date}</span>
+              </div>
+              <div className="sidebar-meta-block">
+                <span className="sidebar-meta-label">READ TIME</span>
+                <span className="sidebar-meta-value">{article.readingTime}</span>
+              </div>
+              <div className="sidebar-meta-block">
+                <span className="sidebar-meta-label">CATEGORIES</span>
+                <div className="sidebar-categories">
+                  {(article.categories || []).map(cat => (
+                    <Link key={cat} to={`/writing/category/${cat}`} className="sidebar-category-link">
+                      {cat}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {relatedArticle && (
+                <div className="sidebar-related">
+                  <span className="sidebar-meta-label">RELATED CASE FILE</span>
+                  <Link to={`/writing/${relatedArticle.slug}`} className="sidebar-related-link">
+                    {relatedArticle.title}
+                  </Link>
+                </div>
+              )}
+            </div>
+          </aside>
+
+          {/* Right Main Content */}
+          <main className="reader-main">
+            <header className="reader-header">
+              <h1 className="reader-title">{article.title}</h1>
+              {article.subtitle && <p className="reader-subtitle">{article.subtitle}</p>}
+            </header>
+
+            {article.heroImage && (
+              <div className="reader-hero-img-wrapper">
+                <img src={article.heroImage} alt={article.title} className="reader-hero-img" />
               </div>
             )}
-            
-            {randomArticle && (
-              <div>
-                <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--color-silver)', marginBottom: '0.5rem', fontFamily: 'var(--font-mono)' }}>NEXT RABBIT HOLE</span>
-                <Link to={`/field-notes/${randomArticle.slug}`} style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', textDecoration: 'none', color: 'var(--color-ink)', display: 'block', marginBottom: '0.5rem' }}>Random Discovery</Link>
-                <Link to={`/field-notes/${randomArticle.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', textDecoration: 'none', color: 'var(--color-plum)' }}>→ OPEN FILE</Link>
+
+            <div className="reader-content">
+              <MarkdownRenderer content={article.content} />
+            </div>
+
+            <footer className="reader-footer">
+              <div className="reader-footer-divider"></div>
+              <div className="reader-footer-content">
+                <div className="reader-footer-brand">
+                  <span className="brand-name">THE BUREAU</span>
+                  <span className="brand-est">EST. 2024</span>
+                </div>
+                <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="reader-top-btn">
+                  BACK TO TOP ↑
+                </button>
               </div>
-            )}
-          </div>
+            </footer>
+          </main>
+
         </div>
       </div>
     </article>

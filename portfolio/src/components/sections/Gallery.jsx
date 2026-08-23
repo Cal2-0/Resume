@@ -69,7 +69,9 @@ const GalleryItem = ({ file, index, colIndex }) => {
             src={path} 
             alt={`Archive Evidence ${index}`} 
             className="gallery-image" 
-            loading="lazy" 
+            loading="lazy"
+            style={{ opacity: 0, transition: 'opacity 0.5s ease' }}
+            onLoad={(e) => { e.target.style.opacity = 1; }}
           />
         )}
       </div>
@@ -94,14 +96,7 @@ const Gallery = () => {
 
     if (!isMobile) {
       const ctx = gsap.context(() => {
-        // Subtle entrance animation
-        gsap.from('.gallery-item', {
-          y: 50,
-          opacity: 0,
-          stagger: 0.05,
-          duration: 0.8,
-          ease: 'power3.out'
-        });
+        // Removed opacity entrance animation to prevent items getting stuck invisible
 
         // Parallax scroll effect for columns
         gsap.to('.gallery-col-0', {

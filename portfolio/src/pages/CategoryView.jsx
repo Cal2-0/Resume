@@ -29,7 +29,7 @@ const CategoryView = () => {
 
   return (
     <div className="magazine-container">
-      <Link to="/field-notes" style={{ position: 'fixed', top: '100px', left: '2rem', color: 'var(--color-ink)', zIndex: 100 }}>
+      <Link to="/writing" style={{ position: 'fixed', top: '100px', left: '2rem', color: 'var(--color-ink)', zIndex: 100 }}>
         <ArrowLeft size={24} />
       </Link>
       
@@ -50,7 +50,7 @@ const CategoryView = () => {
             <div className="editorial-feature" style={{ flexDirection: 'column', gap: '2rem' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 4rem)', lineHeight: 1, maxWidth: '800px', margin: '1rem auto' }}>
-                  <Link to={`/field-notes/${featured.slug}`} style={{ color: 'var(--color-ink)', textDecoration: 'none' }}>
+                  <Link to={`/blog/${featured.slug}`} style={{ color: 'var(--color-ink)', textDecoration: 'none' }}>
                     {featured.title}
                   </Link>
                 </h2>
@@ -59,13 +59,13 @@ const CategoryView = () => {
                   <span>{featured.readingTime}</span>
                 </div>
                 <div style={{ marginTop: '2rem' }}>
-                  <Link to={`/field-notes/${featured.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', color: 'var(--color-bg-dark)', backgroundColor: 'var(--color-gold)', padding: '0.75rem 1.5rem', textDecoration: 'none', border: '1px solid var(--color-gold)' }}>
+                  <Link to={`/blog/${featured.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', color: 'var(--color-bg-dark)', backgroundColor: 'var(--color-gold)', padding: '0.75rem 1.5rem', textDecoration: 'none', border: '1px solid var(--color-gold)' }}>
                     [ READ FULL DOSSIER ↗ ]
                   </Link>
                 </div>
               </div>
               {featured.heroImage && featured.heroImage !== 'CINEMATIC' && featured.heroImage !== 'TECHNICAL_BLACK' && (
-                <Link to={`/field-notes/${featured.slug}`}>
+                <Link to={`/blog/${featured.slug}`}>
                   <div style={{ width: '100%', height: '60vh', backgroundColor: 'var(--color-graphite)', backgroundImage: `url(${featured.heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'opacity 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'} onMouseOut={(e) => e.currentTarget.style.opacity = '1'} />
                 </Link>
               )}
@@ -85,14 +85,14 @@ const CategoryView = () => {
                   </span>
                   <div>
                     <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', margin: '0 0 0.5rem 0' }}>
-                      <Link to={`/field-notes/${article.slug}`} style={{ color: 'var(--color-white)', textDecoration: 'none', transition: 'color 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.color = 'var(--color-gold)'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--color-white)'}>
+                      <Link to={`/writing/${article.slug}`} style={{ color: 'var(--color-white)', textDecoration: 'none', transition: 'color 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.color = 'var(--color-gold)'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--color-white)'}>
                         {article.title}
                       </Link>
                     </h3>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--color-graphite)', margin: '0 0 1rem 0' }}>
                       {article.subtitle}
                     </p>
-                    <Link to={`/field-notes/${article.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-gold)', textDecoration: 'none' }}>
+                    <Link to={`/blog/${article.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-gold)', textDecoration: 'none' }}>
                       READ FILE ↗
                     </Link>
                   </div>

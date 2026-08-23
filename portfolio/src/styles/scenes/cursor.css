@@ -7,17 +7,47 @@
   border-radius: 50%;
   background-color: var(--color-cyan);
   pointer-events: none;
-  z-index: 99999;
+  z-index: 999999;
   transform: translate(-50%, -50%);
   mix-blend-mode: normal;
   transition: width 0.3s, height 0.3s, background-color 0.3s;
+  box-shadow: 0 0 12px rgba(232, 213, 181, 0.3);
 }
 
-/* Hide native cursor for the awwwards effect */
-body {
-  cursor: none;
+.bureau-cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  pointer-events: none;
+  z-index: 999998;
+  transform: translate(-50%, -50%);
+  opacity: 0;
 }
 
-a, button, .archive-item, .tx-card {
-  cursor: none;
+/* Hide native cursor for the awwwards effect — desktop only */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+
+  a, button, .archive-item, .tx-card, .record-card {
+    cursor: none;
+  }
+}
+
+/* On touch devices, restore native cursor and hide custom cursor */
+@media (hover: none), (pointer: coarse) {
+  .bureau-cursor,
+  .bureau-cursor-trail {
+    display: none !important;
+  }
+
+  body,
+  a, button, .archive-item, .tx-card, .record-card {
+    cursor: auto;
+  }
 }

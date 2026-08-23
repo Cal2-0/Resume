@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../../styles/scenes/entry.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { profile } from '../../data/profile';
 import meImage from '../../assets/me.JPG';
 import ClipReveal from '../motion/ClipReveal';
+import Magnetic from '../motion/Magnetic';
 import '../../styles/scenes/person.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,6 +15,23 @@ const Hero = () => {
   const stageRef = useRef(null);
   const portraitRef = useRef(null);
   const portraitImgRef = useRef(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [typedThesis, setTypedThesis] = useState('');
+
+  // Typewriter effect for thesis
+  useEffect(() => {
+    const thesis = profile.thesis;
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index <= thesis.length) {
+        setTypedThesis(thesis.substring(0, index));
+        index++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 45);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     // Media query check to disable complex scroll triggers on mobile if needed
@@ -34,26 +52,43 @@ const Hero = () => {
       // Hide the secondary elements that will appear ON SCROLL
       gsap.set('.entry-disciplines, .entry-linkedin-btn, .entry-telemetry', { opacity: 0 });
 
-      tlEnter.to(portraitRef.current, {
-        scale: 1,
-        clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-        WebkitClipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-        duration: 1.5,
-        ease: 'power3.out'
-      })
-      .to('.name-char', {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        stagger: 0.05,
-        ease: 'power4.out'
-      }, '-=1')
-      .to('.hero-reveal-element', {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power2.out'
-      }, '-=0.5');
+      // Wait for image to load before starting entrance animation
+      const startAnimation = () => {
+        tlEnter.to(portraitRef.current, {
+          scale: 1,
+          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+          WebkitClipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+          duration: 1.5,
+          ease: 'power3.out'
+        })
+        .to('.name-char', {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.05,
+          ease: 'power4.out'
+        }, '-=1')
+        .to('.hero-reveal-element', {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out'
+        }, '-=0.5');
+      };
+
+      if (imageLoaded) {
+        startAnimation();
+      } else {
+        // Fallback: start after a short timeout even if image hasn't loaded
+        const fallbackTimer = setTimeout(startAnimation, 2000);
+        const checkImage = setInterval(() => {
+          if (imageLoaded) {
+            clearTimeout(fallbackTimer);
+            clearInterval(checkImage);
+            startAnimation();
+          }
+        }, 100);
+      }
 
       // 2. Cinematic Scroll Parallax (Scrubbed Pinned Scene)
       if (!isMobile) {
@@ -114,7 +149,7 @@ const Hero = () => {
       });
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [imageLoaded]);
 
   const words = profile.name.split(' ');
 
@@ -151,21 +186,24 @@ const Hero = () => {
                 ref={portraitImgRef}
                 src={meImage} 
                 alt="Calvin Dsouza" 
-                className="entry-portrait-img" 
+                className={`entry-portrait-img ${imageLoaded ? 'img-loaded' : ''}`}
+                loading="eager"
+                decoding="async"
+                onLoad={() => setImageLoaded(true)}
               />
             </div>
           </div>
 
           {/* Right Side Wrapping Container */}
-          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+          <div className="entry-content-wrapper">
             
             {/* Typography Slot (Fades Out) */}
-            <div className="entry-content-col" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <h1 className="entry-name" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="entry-content-col">
+              <h1 className="entry-name">
                 {words.map((word, wIdx) => (
-                  <div key={wIdx} style={{ overflow: 'hidden' }}>
+                  <div key={wIdx} className="entry-name-line">
                     {word.split('').map((char, cIdx) => (
-                      <span key={cIdx} style={{ display: 'inline-block' }} className="name-char">
+                      <span key={cIdx} className="name-char">
                         {char}
                       </span>
                     ))}
@@ -173,7 +211,19 @@ const Hero = () => {
                 ))}
               </h1>
               
-              <h2 className="entry-thesis hero-reveal-element">{profile.thesis}</h2>
+              <h2 className="entry-thesis hero-reveal-element">
+                {typedThesis}
+                <span style={{ 
+                  display: 'inline-block',
+                  width: '2px',
+                  height: '1em',
+                  background: 'var(--color-gold)',
+                  marginLeft: '2px',
+                  animation: 'blink 1s step-end infinite',
+                  verticalAlign: 'text-bottom'
+                }} />
+                <style>{`@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }`}</style>
+              </h2>
               
               <div className="entry-disciplines">
                 {profile.disciplines.map((disc, i) => (
@@ -181,31 +231,33 @@ const Hero = () => {
                 ))}
               </div>
 
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '2rem' }}>
-                <a 
-                  href="https://linkedin.com/in/calvin-jude-dsouza" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="entry-linkedin-btn"
-                  style={{ margin: 0 }}
-                >
-                  [ CONNECT ON LINKEDIN ]
-                </a>
+              <div className="entry-actions-row">
+                <Magnetic>
+                  <a 
+                    href="https://linkedin.com/in/calvin-jude-dsouza" 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="entry-linkedin-btn"
+                  >
+                    [ CONNECT ON LINKEDIN ]
+                  </a>
+                </Magnetic>
                 
-                <a 
-                  href="/resume.pdf" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="entry-linkedin-btn"
-                  style={{ margin: 0, color: 'var(--color-gold)', borderColor: 'var(--color-gold)' }}
-                >
-                  [ DOWNLOAD DOSSIER ]
-                </a>
+                <Magnetic>
+                  <a 
+                    href="/resume.pdf" 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="entry-linkedin-btn entry-dossier-btn"
+                  >
+                    [ DOWNLOAD DOSSIER ]
+                  </a>
+                </Magnetic>
               </div>
             </div>
 
             {/* Person Bio Slot (Fades In) */}
-            <div className="person-content-col" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div className="person-content-col">
               <div className="person-header" style={{ marginBottom: '2rem' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--color-gold)', margin: 0, lineHeight: 1 }}>THE PERSON</h2>
                 <p className="entry-label" style={{ margin: '0.5rem 0 0 0' }}>PROFILE // CLASSIFIED</p>
@@ -217,7 +269,7 @@ const Hero = () => {
                 ))}
               </div>
 
-              <div className="person-stats" style={{ display: 'flex', gap: '3rem', marginBottom: '3rem' }}>
+              <div className="person-stats" style={{ display: 'flex', gap: '3rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
                 {profile.stats.map((stat, i) => (
                   <div key={i} className="stat-block">
                     <span className="stat-value" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '2rem', color: 'var(--color-white)', marginBottom: '0.5rem' }}>{stat.value}</span>

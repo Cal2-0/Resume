@@ -115,6 +115,8 @@ const Person = () => {
               ))}
             </div>
 
+
+
             <div className="identity-links" style={{ display: 'flex', justifyContent: 'center', marginTop: 'var(--space-4)' }}>
               <SocialCard />
             </div>

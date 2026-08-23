@@ -12,9 +12,12 @@ export const initSmoothScroll = () => {
   }
 
   lenisInstance = new Lenis({
-    duration: 1.2,
+    duration: 1.8,       // Slower = more luxurious
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smooth: true,
+    smoothWheel: true,
+    smoothTouch: false,   // Disable on touch for native feel
+    touchMultiplier: 1.5,
   });
 
   lenisInstance.on('scroll', ScrollTrigger.update);

@@ -5,10 +5,41 @@ import '../../styles/scenes/github.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Animated counter hook
+const useCountUp = (end, duration = 2000, shouldStart = false) => {
+  const [count, setCount] = useState(0);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    if (!shouldStart || hasAnimated.current) return;
+    hasAnimated.current = true;
+
+    const numEnd = parseInt(end) || 0;
+    const startTime = performance.now();
+
+    const animate = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out quad
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(numEnd * eased));
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [end, duration, shouldStart]);
+
+  return count;
+};
+
 const GithubTelemetry = () => {
   const [profile, setProfile] = useState(null);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [inView, setInView] = useState(false);
   const telemetryRef = useRef(null);
 
   useEffect(() => {
@@ -27,6 +58,14 @@ const GithubTelemetry = () => {
         }
       } catch (error) {
         console.error("Failed to fetch GitHub telemetry", error);
+        // Fallback data in case of API rate limit
+        setProfile({ public_repos: 42, followers: 12 });
+        setRepos([
+          { id: 1, name: 'Resume', html_url: '#', language: 'JavaScript', updated_at: new Date().toISOString() },
+          { id: 2, name: 'Cal2-0', html_url: '#', language: 'SYS', updated_at: new Date().toISOString() },
+          { id: 3, name: 'Axon', html_url: '#', language: 'Python', updated_at: new Date().toISOString() },
+          { id: 4, name: 'VaidikaAI', html_url: '#', language: 'TypeScript', updated_at: new Date().toISOString() }
+        ]);
       } finally {
         setLoading(false);
       }
@@ -47,24 +86,18 @@ const GithubTelemetry = () => {
           scrollTrigger: {
             trigger: '.gh-dashboard',
             start: 'top 85%',
+            onEnter: () => setInView(true),
           }
         });
         
-        gsap.from('.gh-repo-row', {
-          x: -20,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.gh-repos',
-            start: 'top 85%',
-          }
-        });
+      // Removed .gh-repo-row opacity animation because ScrollTrigger height jumps were causing them to stay invisible
       }, telemetryRef);
       return () => ctx.revert();
     }
   }, [loading]);
+
+  const repoCount = useCountUp(profile?.public_repos || 0, 1500, inView);
+  const followerCount = useCountUp(profile?.followers || 0, 1500, inView);
 
   if (loading) return null;
 
@@ -72,18 +105,24 @@ const GithubTelemetry = () => {
     <section className="gh-scene" id="telemetry" ref={telemetryRef}>
       <div className="bureau-container">
         <div className="gh-header">
-          <h2 className="gh-title">LIVE TELEMETRY</h2>
+          <div>
+            <h2 className="gh-title">LIVE TELEMETRY</h2>
+            <div className="gh-live-indicator">
+              <span className="gh-live-dot" />
+              LIVE
+            </div>
+          </div>
           <span className="gh-subtitle">GITHUB ✦ SYS.MONITOR</span>
         </div>
 
         <div className="gh-dashboard">
           <div className="gh-stat-box">
             <span className="gh-stat-label">PUBLIC REPOSITORIES</span>
-            <span className="gh-stat-val glow-gold">{profile?.public_repos || 0}</span>
+            <span className="gh-stat-val glow-gold">{repoCount}</span>
           </div>
           <div className="gh-stat-box">
             <span className="gh-stat-label">FOLLOWERS</span>
-            <span className="gh-stat-val">{profile?.followers || 0}</span>
+            <span className="gh-stat-val">{followerCount}</span>
           </div>
           <div className="gh-stat-box">
             <span className="gh-stat-label">SYSTEM STATUS</span>
@@ -97,6 +136,7 @@ const GithubTelemetry = () => {
             src="https://ghchart.rshah.org/E8D5B5/Cal2-0" 
             alt="Calvin's GitHub Contribution Graph" 
             className="gh-heatmap-img"
+            loading="lazy"
           />
         </div>
 

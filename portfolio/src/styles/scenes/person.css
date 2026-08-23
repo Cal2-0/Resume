@@ -3,7 +3,7 @@
 .dossier-scene {
   background-color: var(--color-bg-dark);
   padding: var(--space-8) 0;
-  border-top: 1px solid var(--color-rule);
+  border-top: 1px solid var(--color-brown);
   border-bottom: 1px solid var(--color-rule);
 }
 
@@ -14,7 +14,7 @@
   font-family: var(--font-mono);
   font-size: var(--type-caption);
   color: var(--color-gold);
-  border-bottom: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-brown);
   padding-bottom: var(--space-3);
   margin-bottom: var(--space-6);
   letter-spacing: 0.1em;
@@ -44,17 +44,18 @@
 
 .identity-name {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-size: clamp(1.5rem, 3vw, 2.8rem);
   line-height: 0.95;
   color: var(--color-white);
   letter-spacing: -0.02em;
-  margin: 0;
+  margin: 0 0 0 2px;
+  overflow-wrap: break-word;
 }
 
 .identity-rule {
   width: 60px;
   height: 3px;
-  background: var(--color-gold);
+  background: linear-gradient(90deg, var(--color-gold), var(--color-brown));
   margin-top: var(--space-4);
 }
 
@@ -76,7 +77,7 @@
 
 .identity-key {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--color-silver);
   letter-spacing: 0.08em;
   flex-shrink: 0;
@@ -84,9 +85,12 @@
 
 .identity-val {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-ink);
   text-align: right;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .identity-val.highlight {
@@ -104,7 +108,7 @@
 .identity-section-label {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--color-gold);
   letter-spacing: 0.15em;
   margin-bottom: var(--space-3);
@@ -119,16 +123,19 @@
 
 .currently-action {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--color-plum);
+  font-size: 0.6rem;
+  color: var(--color-brown);
   flex-shrink: 0;
-  min-width: 100px;
+  min-width: 90px;
 }
 
 .currently-focus {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-graphite);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 /* Links */
@@ -163,14 +170,14 @@
 
 .record-title {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  font-size: clamp(1.3rem, 2.5vw, 2.2rem);
   color: var(--color-white);
   margin: 0 0 var(--space-2) 0;
 }
 
 .record-subtitle {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--color-silver);
   margin: 0 0 var(--space-6) 0;
 }
@@ -199,7 +206,7 @@
 .record-card.is-expanded {
   grid-column: span 2;
   border-color: var(--color-gold);
-  background: rgba(232, 213, 181, 0.04);
+  background: rgba(107, 66, 38, 0.05);
 }
 
 .record-card-header {
@@ -218,22 +225,25 @@
 .record-card-info {
   flex-grow: 1;
   min-width: 0;
+  overflow: hidden;
 }
 
 .record-card-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--color-ink);
   letter-spacing: 0.1em;
   margin: 0;
+  overflow-wrap: break-word;
 }
 
 .record-card-summary {
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--color-graphite);
   display: block;
   margin-top: 2px;
+  overflow-wrap: break-word;
 }
 
 .record-expand-icon {
@@ -279,10 +289,11 @@
 
 .record-entry-event {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: var(--color-ink);
   flex: 1;
   min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .record-entry-result {
@@ -297,10 +308,11 @@
 .record-entry-detail {
   width: 100%;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   color: var(--color-ash);
   margin-top: var(--space-1);
   line-height: 1.5;
+  overflow-wrap: break-word;
 }
 
 /* ── Responsive ───────────────────────────────────────────── */
@@ -325,9 +337,17 @@
 }
 
 @media (max-width: 768px) {
+  .dossier-scene {
+    padding: var(--space-6) 0;
+  }
+
   .dossier-label-bar {
     flex-direction: column;
     gap: var(--space-2);
+  }
+
+  .dossier-identity {
+    padding: var(--space-4);
   }
 
   .identity-row {
@@ -337,5 +357,49 @@
 
   .identity-val {
     text-align: left;
+  }
+
+  .currently-item {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .currently-action {
+    min-width: auto;
+  }
+
+  .record-card {
+    padding: var(--space-3);
+  }
+
+  .record-card-label {
+    font-size: 0.6rem;
+  }
+
+  .record-card-summary {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dossier-identity {
+    padding: var(--space-3);
+  }
+
+  .identity-name {
+    font-size: 1.5rem;
+  }
+
+  .record-icon {
+    font-size: 1.1rem;
+    width: 24px;
+  }
+
+  .record-entry-event {
+    font-size: 0.78rem;
+  }
+
+  .record-entry-result {
+    font-size: 0.6rem;
   }
 }

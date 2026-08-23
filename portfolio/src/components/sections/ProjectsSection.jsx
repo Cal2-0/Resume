@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { Link } from 'react-router-dom';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '../../data/projects';
 import HoverPreview from '../motion/HoverPreview';
@@ -13,22 +14,15 @@ const ProjectsSection = ({ fullArchive = false }) => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Fade in list items on scroll
-      gsap.from('.archive-item', {
-        y: 50,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.archive-list',
-          start: 'top 80%',
-        }
-      });
+      // Removed opacity entrance animation for archive items because ScrollTrigger height calculation 
+      // issues were causing the items to stay invisible and leaving a giant blank space.
     }, archiveRef);
 
     return () => ctx.revert();
   }, []);
+
+  // Removed ScrollTrigger.refresh() on hover because it was causing severe 
+  // scroll snapping and layout jumps to the next section (Field Evidence).
 
   return (
     <section className="archive-scene" id="archive" ref={archiveRef}>
@@ -57,6 +51,7 @@ const ProjectsSection = ({ fullArchive = false }) => {
                   className={`archive-item ${isHovered ? 'is-hovered' : ''}`}
                   onMouseEnter={() => setHoveredProject(project.id)}
                   onMouseLeave={() => setHoveredProject(null)}
+                  onClick={() => setHoveredProject(hoveredProject === project.id ? null : project.id)}
                 >
                   {/* collapsed state always visible */}
                 <div className="archive-item-base">
@@ -67,6 +62,9 @@ const ProjectsSection = ({ fullArchive = false }) => {
                   </div>
                   <span className={`archive-item-status status-${project.status.toLowerCase()}`}>
                     [{project.status}]
+                  </span>
+                  <span className="archive-mobile-expand-icon">
+                    {isHovered ? '−' : '+'}
                   </span>
                 </div>
 
@@ -129,9 +127,9 @@ const ProjectsSection = ({ fullArchive = false }) => {
 
         {!fullArchive && (
           <div className="archive-footer" style={{ marginTop: 'var(--space-8)', textAlign: 'center' }}>
-            <a href="/archive" className="archive-view-all" style={{ padding: '1rem 2rem', border: '1px solid var(--color-rule)', textDecoration: 'none', color: 'var(--color-gold)', transition: 'all 0.3s' }} onMouseEnter={e => e.target.style.backgroundColor = 'var(--color-paper)'} onMouseLeave={e => e.target.style.backgroundColor = 'transparent'}>
+            <Link to="/work" className="archive-view-all" style={{ display: 'inline-block', padding: '1rem 2rem', border: '1px solid var(--color-rule)', textDecoration: 'none', color: 'var(--color-gold)', transition: 'all 0.3s' }} onMouseEnter={e => e.target.style.backgroundColor = 'rgba(232, 213, 181, 0.05)'} onMouseLeave={e => e.target.style.backgroundColor = 'transparent'}>
               VIEW COMPLETE ARCHIVE ↗
-            </a>
+            </Link>
           </div>
         )}
 

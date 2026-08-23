@@ -23,18 +23,24 @@
 
 .nav-logo {
   font-family: var(--font-display);
-  font-size: var(--type-subhead);
+  font-size: clamp(1.1rem, 3vw, var(--type-subhead));
   color: var(--color-ink);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: var(--space-2);
   z-index: 10001;
+  white-space: nowrap;
+  text-shadow: none;
+}
+
+.nav-logo:hover {
+  text-shadow: none;
 }
 
 .nav-logo-badge {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   background-color: var(--color-ink);
   color: var(--color-paper);
   padding: 2px 6px;
@@ -43,7 +49,7 @@
 
 .nav-links {
   display: flex;
-  gap: var(--space-6);
+  gap: var(--space-5);
   align-items: center;
 }
 
@@ -54,11 +60,14 @@
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  transition: color var(--duration-interface) var(--ease-out);
+  transition: color 0.3s ease;
+  text-shadow: none;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
   color: var(--color-ink);
+  text-shadow: none;
 }
 
 .nav-cta {
@@ -66,7 +75,7 @@
   border: 1px solid var(--color-ink);
   padding: 6px 12px;
   border-radius: 2px;
-  transition: all var(--duration-interface) var(--ease-out);
+  transition: all 0.3s ease;
 }
 
 .nav-cta:hover {
@@ -112,6 +121,16 @@
   display: none;
 }
 
+@media (max-width: 900px) {
+  .nav-links {
+    gap: var(--space-3);
+  }
+
+  .nav-link {
+    font-size: 9px;
+  }
+}
+
 @media (max-width: 768px) {
   .nav-links {
     display: none;
@@ -155,7 +174,7 @@
 
   .mobile-nav-link {
     font-family: var(--font-display);
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 5vw, 2rem);
     color: var(--color-white);
     text-decoration: none;
     text-transform: uppercase;
@@ -164,22 +183,24 @@
     align-items: baseline;
     gap: var(--space-3);
     transition: color 0.2s ease, transform 0.2s ease;
+    text-shadow: none;
   }
 
   .mobile-nav-link:hover {
     color: var(--color-gold);
     transform: translateX(8px);
+    text-shadow: none;
   }
 
   .mobile-link-num {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--color-ash);
   }
 
   .mobile-cta {
     font-family: var(--font-mono);
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--color-bg-dark) !important;
     background-color: var(--color-gold);
     padding: 12px 20px;
@@ -187,5 +208,17 @@
     margin-top: var(--space-4);
     text-align: center;
     justify-content: center;
+    text-shadow: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .nav-logo {
+    font-size: 1rem;
+  }
+
+  .nav-logo-badge {
+    font-size: 8px;
+    padding: 1px 4px;
   }
 }

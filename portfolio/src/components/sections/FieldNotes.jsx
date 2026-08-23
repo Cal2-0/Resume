@@ -28,7 +28,7 @@ const FieldNotesMagazine = () => {
   const handleRandomClick = () => {
     if (articles.length === 0) return;
     const randomIndex = Math.floor(Math.random() * articles.length);
-    navigate(`/field-notes/${articles[randomIndex].slug}`);
+    navigate(`/writing/${articles[randomIndex].slug}`);
   };
 
   const handleMoodSelect = (type) => {
@@ -36,7 +36,7 @@ const FieldNotesMagazine = () => {
     const matches = articles.filter(a => (a.categories && a.categories.includes(type)) || a.type === type || (a.tags && a.tags.includes(type)));
     if (matches.length > 0) {
       const randomMatch = matches[Math.floor(Math.random() * matches.length)];
-      navigate(`/field-notes/${randomMatch.slug}`);
+      navigate(`/writing/${randomMatch.slug}`);
     }
   };
 
@@ -44,8 +44,8 @@ const FieldNotesMagazine = () => {
     <section className="magazine-container">
       {/* HEADER */}
       <div className="magazine-header" style={{ padding: '120px var(--grid-margin) 0', borderBottom: '1px solid var(--color-rule)', paddingBottom: '2rem' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6vw, 5rem)', lineHeight: 0.9, letterSpacing: '-0.02em', marginBottom: '1rem' }}>
-          FIELD NOTES
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6vw, 5rem)', lineHeight: 0.9, letterSpacing: '-0.02em', margin: 0 }}>
+          WRITING
         </h1>
         <div style={{ fontFamily: 'var(--font-body)', fontSize: '1.25rem', color: 'var(--color-ink)', maxWidth: '600px', lineHeight: 1.4 }}>
           Things I build.<br/>
@@ -69,7 +69,7 @@ const FieldNotesMagazine = () => {
             <h3 className="magazine-section-title">THE ARCHIVE</h3>
             <div className="category-panels-grid">
               {CATEGORIES.map(cat => (
-                <Link to={`/field-notes/category/${cat.id}`} key={cat.id} className="category-panel">
+                <Link to={`/writing/category/${cat.id}`} key={cat.id} className="category-panel">
                   <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--color-ink)', lineHeight: 1 }}>{cat.label}</h2>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--color-plum)' }}>
                     {stats[cat.id] || 0} ARTICLES
@@ -105,7 +105,7 @@ const FieldNotesMagazine = () => {
               <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--color-plum)', marginBottom: '0.5rem' }}>03 / 08 / 26</span>
               <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--color-ink)', lineHeight: 1.1, marginBottom: '1rem' }}>SR-71 BLACKBIRD</h4>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--color-graphite)', marginBottom: '1rem' }}>Why does an aircraft designed in the 1960s still look like it came from another planet?</p>
-              <Link to="/field-notes" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-ink)', textDecoration: 'none' }}>↗ READ THE RABBIT HOLE</Link>
+              <Link to="/writing" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-ink)', textDecoration: 'none' }}>↗ READ THE RABBIT HOLE</Link>
             </div>
             <ol style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', lineHeight: 2.5, color: 'var(--color-silver)', listStylePosition: 'inside', padding: 0, margin: 0 }}>
               <li style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.5rem' }}><span style={{ color: 'var(--color-plum)', marginRight: '1rem' }}>01</span>humanoid robots</li>
@@ -125,11 +125,11 @@ const FieldNotesMagazine = () => {
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--color-silver)' }}>
                       {new Date(article.date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })}
                     </span>
-                    <Link to={`/field-notes/${article.slug}`} style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--color-ink)', textDecoration: 'none' }}>
+                    <Link to={`/writing/${article.slug}`} style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--color-ink)', textDecoration: 'none' }}>
                       {article.title.substring(0, 40)}{article.title.length > 40 ? '...' : ''}
                     </Link>
                   </div>
-                  <Link to={`/field-notes/${article.slug}`} style={{ color: 'var(--color-silver)', textDecoration: 'none' }}>↗</Link>
+                  <Link to={`/writing/${article.slug}`} style={{ color: 'var(--color-silver)', textDecoration: 'none' }}>↗</Link>
                 </div>
               ))}
             </div>

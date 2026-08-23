@@ -212,11 +212,11 @@ export function CoverflowCarousel({
               style={{ width: "var(--cf-card)" }}
             >
               {slide.slug ? (
-                <Link to={`/field-notes/${slide.slug}`} className="cf-card-image-link" tabIndex={-1} draggable={false}>
+                <Link to={`/blog/${slide.slug}`} className="cf-card-link" onClick={onImageClick} tabIndex={-1} draggable={false}>
                   <img src={slide.src} alt={slide.alt} draggable={false} className="cf-card-image" />
                 </Link>
               ) : (
-                <img src={slide.src} alt={slide.alt} draggable={false} className="cf-card-image" />
+                <img src={slide.src} alt={slide.alt} draggable={false} className="cf-card-image" loading="lazy" style={{ opacity: 0, transition: 'opacity 0.5s ease' }} onLoad={(e) => { e.target.style.opacity = 1; }} />
               )}
             </div>
           ))}

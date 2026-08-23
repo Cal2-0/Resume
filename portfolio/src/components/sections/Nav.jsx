@@ -2,26 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { lenisInstance } from '../../utils/smoothScroll';
+import Magnetic from '../motion/Magnetic';
 import '../../styles/scenes/nav.css';
 
-const Nav = () => {
+const Nav = ({ onTransmitClick }) => {
   const navRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(navRef.current, {
-        y: -100,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 0.5
-      });
-    }, navRef);
-
-    return () => ctx.revert();
+    // Nav animation removed to ensure persistent visibility globally
   }, []);
 
   // Close mobile menu on route change
@@ -29,7 +20,7 @@ const Nav = () => {
     setMobileOpen(false);
   }, [location.pathname]);
 
-  const handleProfileClick = (e) => {
+  const handleAboutClick = (e) => {
     e.preventDefault();
     setMobileOpen(false);
     if (location.pathname !== '/') {
@@ -50,6 +41,12 @@ const Nav = () => {
     }
   };
 
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    setMobileOpen(false);
+    if (onTransmitClick) onTransmitClick();
+  };
+
   return (
     <header className="bureau-nav" ref={navRef}>
       <div className="nav-container">
@@ -57,17 +54,19 @@ const Nav = () => {
           CALVIN <span className="nav-logo-badge">DSOUZA</span>
         </Link>
 
-        {/* Desktop Nav Links */}
+        {/* Desktop Nav — 5 clear items */}
         <nav className="nav-links">
-          <a href="#" onClick={handleProfileClick} className="nav-link">PROFILE</a>
-          <Link to="/gallery" className="nav-link">ARCHIVE</Link>
-          <Link to="/transmissions" className="nav-link">UPDATES</Link>
-          <Link to="/field-notes" className="nav-link">ARTICLES</Link>
-          <a href="/resume.pdf" target="_blank" rel="noreferrer" className="nav-link" style={{ color: 'var(--color-gold)' }}>DOSSIER (CV)</a>
-          <a href="mailto:calvinja320@gmail.com?subject=Incoming%20Transmission%20from%20The%20Bureau&body=Hey%20Calvin%2C%20loved%20the%20portfolio.%20I%20wanted%20to%20connect%20regarding..." className="nav-link nav-cta">TRANSMIT</a>
+          <a href="#" onClick={handleAboutClick} className="nav-link">ABOUT</a>
+          <Link to="/work" className="nav-link">WORK</Link>
+          <Link to="/writing" className="nav-link">WRITING</Link>
+          <Link to="/gallery" className="nav-link">GALLERY</Link>
+          <a href="/resume.pdf" target="_blank" rel="noreferrer" className="nav-link">RESUME</a>
+          <Magnetic>
+            <a href="#" onClick={handleContactClick} className="nav-link nav-cta" style={{ display: 'inline-block' }}>CONTACT</a>
+          </Magnetic>
         </nav>
 
-        {/* Mobile Hamburger Toggle Button */}
+        {/* Mobile Hamburger Toggle */}
         <button 
           className={`nav-mobile-toggle ${mobileOpen ? 'open' : ''}`}
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -78,26 +77,26 @@ const Nav = () => {
         </button>
       </div>
 
-      {/* Mobile Drawer Overlay */}
+      {/* Mobile Drawer */}
       <div className={`nav-mobile-drawer ${mobileOpen ? 'open' : ''}`}>
         <div className="mobile-drawer-links">
-          <a href="#" onClick={handleProfileClick} className="mobile-nav-link">
-            <span className="mobile-link-num">01</span> PROFILE
+          <a href="#" className="mobile-nav-link" onClick={(e) => { e.preventDefault(); handleAboutClick(e); }}>
+            <span className="mobile-link-num">01</span> ABOUT
+          </a>
+          <Link to="/work" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
+            <span className="mobile-link-num">02</span> WORK
+          </Link>
+          <Link to="/writing" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
+            <span className="mobile-link-num">03</span> WRITING
+          </Link>
+          <a href="/resume.pdf" target="_blank" rel="noreferrer" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
+            <span className="mobile-link-num">04</span> RESUME ↗
           </a>
           <Link to="/gallery" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
-            <span className="mobile-link-num">02</span> ARCHIVE
+            <span className="mobile-link-num">05</span> GALLERY
           </Link>
-          <Link to="/transmissions" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
-            <span className="mobile-link-num">03</span> UPDATES
-          </Link>
-          <Link to="/field-notes" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
-            <span className="mobile-link-num">04</span> ARTICLES
-          </Link>
-          <a href="/resume.pdf" target="_blank" rel="noreferrer" className="mobile-nav-link" style={{ color: 'var(--color-gold)' }} onClick={() => setMobileOpen(false)}>
-            <span className="mobile-link-num">05</span> DOSSIER (CV) ↗
-          </a>
-          <a href="mailto:calvinja320@gmail.com?subject=Incoming%20Transmission%20from%20The%20Bureau&body=Hey%20Calvin%2C%20loved%20the%20portfolio." className="mobile-nav-link mobile-cta" onClick={() => setMobileOpen(false)}>
-            TRANSMIT SIGNAL ↗
+          <a href="#" onClick={handleContactClick} className="mobile-nav-link mobile-cta">
+            CONTACT ↗
           </a>
         </div>
       </div>

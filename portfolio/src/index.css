@@ -17,6 +17,13 @@
   --color-violet: #8B5CF6; /* Electric Violet */
   --color-plum: #6D28D9;
   
+  /* Brown Palette — Warm Espresso / Mocha */
+  --color-brown: #6B4226;       /* Deep Espresso */
+  --color-mocha: #8B6914;       /* Warm Mocha */
+  --color-saddle: #4A2C17;      /* Dark Saddle */
+  --color-brown-glow: rgba(107, 66, 38, 0.35);
+  --color-mocha-glow: rgba(139, 105, 20, 0.25);
+
   /* Retaining mapped names for compatibility, but updating values */
   --color-cyan: #E8D5B5; /* Re-mapped to Gold */
   --color-red: #8B5CF6; /* Re-mapped to Violet */
@@ -32,15 +39,15 @@
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Typographic Scale */
-  --type-hero: clamp(80px, 12vw, 180px);
-  --type-display: clamp(48px, 8vw, 140px);
-  --type-heading: clamp(36px, 5vw, 80px);
-  --type-subhead: clamp(24px, 3vw, 48px);
-  --type-large: clamp(20px, 2vw, 28px);
-  --type-body: clamp(16px, 1.2vw, 19px);
-  --type-caption: clamp(12px, 1vw, 14px);
-  --type-label: clamp(10px, 0.8vw, 12px);
-  --type-stat: clamp(48px, 7vw, 120px);
+  --type-hero: clamp(64px, 12vw, 180px);
+  --type-display: clamp(40px, 8vw, 140px);
+  --type-heading: clamp(28px, 5vw, 80px);
+  --type-subhead: clamp(20px, 3vw, 48px);
+  --type-large: clamp(18px, 2vw, 28px);
+  --type-body: clamp(15px, 1.2vw, 19px);
+  --type-caption: clamp(11px, 1vw, 14px);
+  --type-label: clamp(9px, 0.8vw, 12px);
+  --type-stat: clamp(40px, 7vw, 120px);
 
   /* Line Heights */
   --leading-tight: 1.1;
@@ -61,8 +68,8 @@
 
   /* === GRID === */
   --grid-columns: 12;
-  --grid-gutter: clamp(16px, 2vw, 32px);
-  --grid-margin: clamp(20px, 5vw, 120px);
+  --grid-gutter: clamp(12px, 2vw, 32px);
+  --grid-margin: clamp(16px, 5vw, 120px);
   --grid-max-width: 1440px;
 
   /* === MOTION TOKENS === */
@@ -94,6 +101,10 @@ body {
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;
   scrollbar-width: none;
+  /* Prevent text overflow on mobile */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* Global CRT Noise Overlay */
@@ -120,6 +131,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   color: var(--color-ink);
   line-height: var(--leading-tight);
+  overflow-wrap: break-word;
 }
 
 /* Luxurious Glows for major headings */
@@ -152,6 +164,7 @@ img {
   max-width: var(--grid-max-width);
   margin: 0 auto;
   padding: 0 var(--grid-margin);
+  overflow-x: hidden;
 }
 
 .bureau-grid {
@@ -167,3 +180,161 @@ img {
   margin: var(--space-6) 0;
   border: none;
 }
+
+/* Ultra-small mobile overrides */
+@media (max-width: 480px) {
+  :root {
+    --grid-margin: 14px;
+    --grid-gutter: 10px;
+  }
+}
+
+/* =========================================
+   SECTION DIVIDERS — Cinematic Transitions
+   ========================================= */
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-7) var(--grid-margin);
+  max-width: var(--grid-max-width);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-divider__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-rule) 50%, transparent 100%);
+}
+
+.section-divider__label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--color-ash);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Gold variant: warm line + gold text */
+.section-divider--gold .section-divider__line {
+  background: linear-gradient(90deg, transparent 0%, var(--color-brown) 40%, var(--color-gold) 50%, var(--color-brown) 60%, transparent 100%);
+  opacity: 0.5;
+}
+
+.section-divider--gold .section-divider__label {
+  color: var(--color-gold);
+  text-shadow: 0 0 15px var(--color-brown-glow);
+}
+
+/* Pulse variant: the label gently pulses */
+.section-divider--pulse .section-divider__label {
+  animation: dividerPulse 3s ease-in-out infinite;
+  color: var(--color-violet);
+}
+
+.section-divider--pulse .section-divider__line {
+  background: linear-gradient(90deg, transparent 0%, var(--color-plum) 40%, var(--color-violet) 50%, var(--color-plum) 60%, transparent 100%);
+  opacity: 0.3;
+}
+
+@keyframes dividerPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* =========================================
+   PARALLAX DEPTH EFFECTS
+   ========================================= */
+
+/* Each major section gets a subtle gradient fade at its top edge
+   to create the illusion of scrolling "into" a new environment */
+
+.dossier-scene::before,
+.gh-scene::before,
+.archive-scene::before,
+.evidence-scene::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, var(--color-bg-dark) 0%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Bottom gradient fade for continuity */
+.dossier-scene::after,
+.gh-scene::after,
+.archive-scene::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, var(--color-bg-dark) 0%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Ensure sections have relative positioning for pseudo-elements */
+.dossier-scene,
+.gh-scene,
+.archive-scene,
+.evidence-scene {
+  position: relative;
+}
+
+/* =========================================
+   SCROLL JOURNEY PACING
+   ========================================= */
+
+/* Add generous vertical padding to create breathing room */
+.gh-scene {
+  padding-top: var(--space-8) !important;
+  padding-bottom: var(--space-8) !important;
+}
+
+.archive-scene {
+  padding-top: var(--space-8) !important;
+  padding-bottom: var(--space-8) !important;
+}
+
+.evidence-scene {
+  padding-top: var(--space-8) !important;
+  padding-bottom: var(--space-9) !important;
+}
+
+/* Subtle background shifts between sections for depth */
+.gh-scene {
+  background: radial-gradient(ellipse at 20% 50%, rgba(107, 66, 38, 0.08) 0%, var(--color-bg-dark) 70%) !important;
+}
+
+.evidence-scene {
+  background: radial-gradient(ellipse at 80% 50%, rgba(139, 92, 246, 0.06) 0%, var(--color-bg-dark) 70%) !important;
+}
+
+/* =========================================
+   ACCESSIBILITY & UTILITIES
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+}
+

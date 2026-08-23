@@ -1,11 +1,11 @@
 .marquee-scene {
-  background-color: var(--color-cyan);
+  background: linear-gradient(90deg, var(--color-gold) 0%, var(--color-mocha) 50%, var(--color-gold) 100%);
   color: var(--color-bg-dark);
-  padding: var(--space-4) 0;
+  padding: var(--space-3) 0;
   overflow: hidden;
   position: relative;
-  border-top: 1px solid var(--color-bg-dark);
-  border-bottom: 1px solid var(--color-bg-dark);
+  border-top: 1px solid var(--color-brown);
+  border-bottom: 1px solid var(--color-brown);
   z-index: 10;
 }
 
@@ -23,7 +23,7 @@
   display: inline-flex;
   align-items: center;
   font-family: var(--font-display);
-  font-size: var(--type-subhead);
+  font-size: clamp(1rem, 2.5vw, var(--type-subhead));
   text-transform: uppercase;
   padding: 0 var(--space-4);
 }
@@ -39,4 +39,16 @@
 
 .marquee-result {
   font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .marquee-item {
+    font-size: clamp(0.8rem, 3vw, 1.2rem);
+    padding: 0 var(--space-2);
+  }
+
+  .marquee-separator {
+    margin: 0 var(--space-2);
+    font-size: 0.8rem;
+  }
 }

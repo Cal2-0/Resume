@@ -1,7 +1,7 @@
 export const profile = {
   name: "CALVIN DSOUZA",
-  thesis: "I BUILD MACHINES THAT LOOK FOR PROOF.",
-  disciplines: ["CYBERSECURITY", "AI", "FORENSICS", "RESEARCH"],
+  thesis: "I BUILD MACHINES THAT LOOK FOR PROOF. CYBERSECURITY RESEARCHER.\nGEEK. CINEPHILE. FOOTBALLER AT HEART. CHEF. LOVES TO TRAVEL.",
+  disciplines: ["CYBERSECURITY", "AI", "FORENSICS", "RESEARCH", "CINEPHILE", "AUTOMOTIVE"],
   education: {
     degree: "B.Tech Computer Science (Cybersecurity)",
     institution: "NMAM Institute of Technology",
@@ -14,6 +14,8 @@ export const profile = {
   },
   contact: {
     email: "calvinja320@gmail.com",
+    email2: "calwin20006@gmail.com",
+    phone: "+91-8971192706",
     linkedin: "https://linkedin.com/in/calvin-jude-dsouza",
     github: "https://github.com/Cal2-0",
     instagram: "https://www.instagram.com/_______.cal/"
