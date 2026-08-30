@@ -31,25 +31,74 @@ import TerminalOverlay from './components/shared/TerminalOverlay';
 import './index.css';
 import './styles/scenes/audit.css';
 
-const KonamiListener = () => {
+const GlobalShortcutListener = () => {
   const navigate = useNavigate();
+  const [toastMessage, setToastMessage] = useState(null);
+
   useEffect(() => {
-    let keys = [];
+    let keyBuffer = [];
     const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
     
     const handleKeyDown = (e) => {
-      keys.push(e.key);
-      keys = keys.slice(-10);
-      if (keys.join('') === konami.join('')) {
+      // Don't intercept if typing inside an active input or textarea
+      if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) {
+        return;
+      }
+
+      keyBuffer.push(e.key.toLowerCase());
+      keyBuffer = keyBuffer.slice(-15);
+      const str = keyBuffer.join('');
+
+      // 1. Check for 'larp' or 'normal' keyword
+      if (str.endsWith('larp') || str.endsWith('normal')) {
+        document.body.classList.remove('audit-mode');
+        setToastMessage('[ ⚡ NORMAL MODE RESTORED // "LARP" OVERRIDE ACCEPTED ]');
+        setTimeout(() => setToastMessage(null), 3500);
+        keyBuffer = [];
+        return;
+      }
+
+      // 2. Check for Konami code (Arrow keys OR WASD: wwssadadba)
+      const isArrowKonami = keyBuffer.slice(-10).join('') === konami.map(k => k.toLowerCase()).join('');
+      const isWasdKonami = str.endsWith('wwssadadba');
+
+      if (isArrowKonami || isWasdKonami) {
         navigate('/classified');
-        keys = [];
+        setToastMessage('[ 🔐 KONAMI OVERRIDE: LEVEL 6 BLACK FILE DECLASSIFIED ]');
+        setTimeout(() => setToastMessage(null), 3500);
+        keyBuffer = [];
       }
     };
     
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [navigate]);
-  return null;
+
+  if (!toastMessage) return null;
+
+  return (
+    <div style={{
+      position: 'fixed',
+      top: '20px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      zIndex: 10000000,
+      background: 'rgba(10, 10, 15, 0.95)',
+      border: '1px solid var(--color-gold, #C5A880)',
+      color: 'var(--color-gold, #C5A880)',
+      padding: '10px 20px',
+      borderRadius: '4px',
+      fontFamily: 'var(--font-mono, monospace)',
+      fontSize: '0.82rem',
+      fontWeight: 'bold',
+      letterSpacing: '1px',
+      boxShadow: '0 0 25px rgba(197, 168, 128, 0.4)',
+      backdropFilter: 'blur(10px)',
+      animation: 'fadeIn 0.25s ease-out'
+    }}>
+      {toastMessage}
+    </div>
+  );
 };
 
 const ScrollToTop = () => {
@@ -226,12 +275,32 @@ function App() {
           <div className="audit-status-overlay">
             <p>SYSTEM BREACH DETECTED</p>
             <p>SCANNING DOM NODES...</p>
-            <p style={{ color: '#ffaaaa' }}>WARNING: Unsanitized input exposed.</p>
+            <p style={{ color: '#ffaaaa' }}>WARNING: Raw DOM audit mode active.</p>
             <p>ROOT ACCESS GRANTED<span className="audit-cursor"></span></p>
+            <button
+              onClick={() => document.body.classList.remove('audit-mode')}
+              className="audit-restore-btn"
+              style={{
+                marginTop: '10px',
+                width: '100%',
+                background: 'rgba(255, 51, 51, 0.2)',
+                border: '1px solid #ff3333',
+                color: '#ff3333',
+                padding: '6px 10px',
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '0.74rem',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                letterSpacing: '1px',
+                pointerEvents: 'auto'
+              }}
+            >
+              [ ✕ RESTORE NORMAL (or type "larp") ]
+            </button>
           </div>
           <ScrollToTop />
           <PageTitle />
-          <KonamiListener />
+          <GlobalShortcutListener />
           <TerminalOverlay />
           <ScrollProgress />
           <Cursor />

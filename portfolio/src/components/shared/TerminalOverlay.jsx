@@ -45,6 +45,11 @@ const TerminalOverlay = () => {
 ---------------
 whoami     - Display operator dossier
 skills     - List technical proficiencies
+specs      - Operator workstation hardware telemetry
+movies     - Top classified cinema watchlist
+food       - Primary fuel matrix & food roadmap
+garage     - The ₹100 Crore dream hypercar fleet
+vault      - Launch Secret Protocols / Hidden Me
 contact    - Establish secure comms link
 ls         - List directory contents
 cat <file> - Read file contents
@@ -52,8 +57,65 @@ clear      - Clear terminal output
 nmap       - Network exploration tool
 neofetch   - System information
 matrix     - Enter the Matrix
-exit       - Terminate session
-(and a few classified overrides...)`;
+exit       - Terminate session`;
+        break;
+      case 'specs':
+      case 'hardware':
+        output = `OPERATOR HARDWARE TELEMETRY
+---------------------------
+[+] CPU:      13th Gen Intel(R) Core(TM) i7-13700H (14C / 20T, 5.0 GHz)
+[+] GPU:      NVIDIA GeForce RTX 4070 Laptop GPU (8GB GDDR6) + Iris Xe
+[+] RAM:      16.0 GB DDR5 @ 5200 MHz
+[+] STORAGE:  NVMe M.2 High-Speed SSD
+[+] GAMING:   Valorant, Fortnite, Minecraft, FIFA
+[+] THERMAL:  44°C Nominal // Power Overclocked`;
+        break;
+      case 'movies':
+      case 'cinema':
+        output = `CLASSIFIED CINEMA PICKS
+-----------------------
+[+] COMEDY:   Kingsman, Johnny English, Naked Gun, White Chicks, Superbad, 21 Jump Street
+[+] ROM-COM:  The Proposal, How to Lose a Guy in 10 Days, The Bounty Hunter, Grown Ups
+[+] CRIME:    Heat, Casino, The Godfather, No Country for Old Men, Zodiac, Prisoners
+[+] SCIFI:    Interstellar, 2001: Space Odyssey, Ready Player One, Transformers, Cars
+[+] ACTION:   Baahubali, KGF Chapter 1 & 2
+(Type 'vault' to access the interactive recommendation engine)`;
+        break;
+      case 'food':
+        output = `CULINARY DOSSIER // PRIMARY FUEL
+--------------------------------
+[+] STAPLES:      PizzaExpress, Meghana's Biryani, Dubai KFC, Gulati's Butter Chicken
+[+] MASTERCHEF:   500+ Hours broadcast analysis
+[+] MISSION:      Operation: The Great India Food Roadtrip (Kerala → Sikkim Momos)`;
+        break;
+      case 'garage':
+      case 'cars':
+        output = `THE ₹100 CRORE HYPERCAR FLEET
+-----------------------------
+[+] #01: Porsche 918 Spyder (4.6L V8 Hybrid, 875 HP, 0-100: 2.6s) [₹18 Cr]
+[+] #02: Pagani Huayra R (6.0L NA AMG V12, 850 HP, 9000 RPM)       [₹32 Cr]
+[+] #03: Ferrari FXX-K (6.3L V12 + KERS, 1036 HP, Track Only)     [₹36 Cr]
+[+] STATUS: ALLOCATED ₹86 CR / ₹100 CR (Remaining: ₹14 Cr)`;
+        break;
+      case 'larp':
+      case 'normal':
+        document.body.classList.remove('audit-mode');
+        output = '[✔] AUDIT OVERRIDE DEACTIVATED // RESTORED TO PRISTINE NORMAL MODE.';
+        break;
+      case 'audit':
+        document.body.classList.toggle('audit-mode');
+        output = document.body.classList.contains('audit-mode') 
+          ? '[!] RED TEAM AUDIT MODE ENGAGED. Type "larp" or "normal" to restore.'
+          : '[✔] AUDIT MODE RESTORED TO NORMAL.';
+        break;
+      case 'vault':
+      case 'game':
+      case 'quiz':
+        output = 'Initiating direct neural jump to Bureau Vault...';
+        setTimeout(() => {
+          setIsOpen(false);
+          navigate('/vault');
+        }, 600);
         break;
       case 'whoami':
         output = `OPERATOR DOSSIER
@@ -92,11 +154,7 @@ LOCATION:   Earth (Usually)`;
         break;
       case 'cat':
         if (args[1] === 'classified.txt') {
-          output = 'Opening classified document...';
-          setTimeout(() => {
-            setIsOpen(false);
-            navigate('/classified');
-          }, 1000);
+          output = '[FILE REDACTED // ACCESS RESTRICTED BY BUREAU COMMAND]';
         } else if (args[1] === 'top_secret.enc') {
           output = 'ERROR: Decryption key required. File is AES-256 encrypted.';
         } else if (args[1] === '.ghost_protocol') {

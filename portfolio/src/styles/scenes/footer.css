@@ -201,32 +201,31 @@
 }
 
 .footer-classified-trigger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 7px;
-  margin-left: 4px;
-  background: rgba(255, 51, 51, 0.1);
-  border: 1px solid rgba(255, 51, 51, 0.35);
-  color: #ff5555;
-  border-radius: 3px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 4px;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  cursor: default;
+  transition: color 0.2s ease;
   -webkit-tap-highlight-color: transparent;
-  user-select: none;
+  user-select: text;
+  outline: none;
+  box-shadow: none;
 }
 
 .footer-classified-trigger:hover,
 .footer-classified-trigger:active {
-  background: rgba(255, 51, 51, 0.25);
-  border-color: #ff3333;
-  color: #ffffff;
-  box-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
-  transform: scale(1.08);
+  color: inherit;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transform: none;
 }
 
 .signature-built {

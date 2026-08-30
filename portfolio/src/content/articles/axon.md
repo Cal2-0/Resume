@@ -2,7 +2,7 @@
 title: "I Wanted to Know What a Wallet Actually Does"
 subtitle: "Moving beyond static blockchain labels to behavioural forensics with AXON."
 date: "2026-07-28"
-category: ["BUILT", "SECURITY"]
+category: ["BUILT", "CYBERSECURITY"]
 type: "PROJECT STORY"
 tags: ["PROJECT", "SYSTEMS"]
 heroImage: "TECHNICAL_BLACK"

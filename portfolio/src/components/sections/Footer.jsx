@@ -131,15 +131,7 @@ const Footer = ({ onTransmitClick }) => {
 
           <div className="signature-bottom">
             <span className="signature-copyright">
-              © {new Date().getFullYear()} THE BUREAU — DSOUZA 
-              <button 
-                className="footer-classified-trigger"
-                onClick={() => navigate('/classified')}
-                title="[ TOP SECRET // DOSSIER 001 ]"
-                aria-label="Access Classified Dossier 001"
-              >
-                001
-              </button>
+              © {new Date().getFullYear()} THE BUREAU — DSOUZA 001
             </span>
             <span className="signature-built">
               BUILT WITH OBSESSION & RESEARCH

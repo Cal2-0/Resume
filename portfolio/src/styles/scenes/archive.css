@@ -610,3 +610,14 @@
   }
 }
 
+/* Hide floating preview tooltips on touch and mobile screens */
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+  .hover-preview-tooltip {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+

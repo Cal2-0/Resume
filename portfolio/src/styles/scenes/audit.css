@@ -187,6 +187,17 @@ body.audit-mode .audit-status-overlay p {
 body.audit-mode .audit-status-overlay p::before { content: "> " !important; opacity: 1; }
 body.audit-mode .audit-status-overlay p::after { content: "" !important; }
 
+body.audit-mode .audit-restore-btn {
+  pointer-events: auto !important;
+  transition: all 0.2s ease !important;
+}
+
+body.audit-mode .audit-restore-btn:hover {
+  background: #ff3333 !important;
+  color: #000 !important;
+  box-shadow: 0 0 15px rgba(255, 51, 51, 0.8) !important;
+}
+
 @keyframes auditBlink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }

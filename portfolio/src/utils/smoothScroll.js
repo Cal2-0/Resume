@@ -20,30 +20,8 @@ export const initSmoothScroll = () => {
     touchMultiplier: 1.5,
   });
 
-  lenisInstance.on('scroll', (e) => {
+  lenisInstance.on('scroll', () => {
     ScrollTrigger.update();
-    
-    // Scroll Velocity Blur Effect
-    // Only apply on non-touch devices for performance
-    if (window.matchMedia("(hover: hover)").matches) {
-      const velocity = Math.abs(e.velocity);
-      const appContainer = document.querySelector('.app-container');
-      if (appContainer) {
-        if (velocity > 1.5) {
-          // Cap the blur at 8px so it doesn't get completely unreadable
-          const blurAmount = Math.min((velocity - 1.5) * 0.5, 8);
-          // Also apply a slight vertical scale based on velocity for stretch effect
-          const scaleY = 1 + Math.min(velocity * 0.005, 0.05);
-          appContainer.style.filter = `blur(${blurAmount}px)`;
-          appContainer.style.transform = `scaleY(${scaleY})`;
-          appContainer.style.transition = 'none'; // React instantly
-        } else {
-          appContainer.style.filter = 'blur(0px)';
-          appContainer.style.transform = 'scaleY(1)';
-          appContainer.style.transition = 'filter 0.3s ease-out, transform 0.3s ease-out'; // Recover smoothly
-        }
-      }
-    }
   });
 
   gsap.ticker.add((time) => {

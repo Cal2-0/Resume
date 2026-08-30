@@ -2,7 +2,7 @@
 title: "Why Detecting a Deepfake Is Becoming a Signal-Processing Problem"
 subtitle: "Moving beyond spatial artifacts to frequency-domain analysis in synthetic media."
 date: "2026-08-05"
-category: ["RESEARCH", "AI", "COMPUTER VISION", "SECURITY"]
+category: ["RESEARCH", "AI", "COMPUTER VISION", "CYBERSECURITY"]
 type: "RESEARCH NOTE"
 tags: ["RESEARCH", "COMPUTER VISION", "CYBERSECURITY"]
 heroImage: "TECHNICAL_BLACK"

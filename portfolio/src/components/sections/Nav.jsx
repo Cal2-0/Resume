@@ -49,25 +49,21 @@ const Nav = ({ onTransmitClick }) => {
 
   return (
     <header className="bureau-nav" ref={navRef}>
-      <div className="nav-container">
-        
-        {/* Left Side: Hidden F1 Trigger & Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          
-          {/* Covert F1 Trigger to Secret Protocols */}
-          <Link
-            to="/vault"
-            className="nav-f1-trigger"
-            title="[ SECRET PROTOCOLS // DECLASSIFIED OVERRIDES ]"
-            aria-label="Open Secret Protocols"
-          >
-            🏎️
-          </Link>
+      {/* Covert F1 Trigger to Secret Protocols — Extreme Left, No Box */}
+      <Link
+        to="/vault"
+        className="nav-f1-trigger"
+        title="[ SECRET PROTOCOLS // DECLASSIFIED OVERRIDES ]"
+        aria-label="Open Secret Protocols"
+      >
+        🏎️
+      </Link>
 
-          <Link to="/" className="nav-logo" onClick={() => setMobileOpen(false)}>
-            CALVIN <span className="nav-logo-badge">DSOUZA</span>
-          </Link>
-        </div>
+      <div className="nav-container">
+        {/* Left Side: Logo */}
+        <Link to="/" className="nav-logo" onClick={() => setMobileOpen(false)}>
+          CALVIN <span className="nav-logo-badge">DSOUZA</span>
+        </Link>
 
         {/* Desktop Nav — 5 clear items */}
         <nav className="nav-links">
@@ -110,11 +106,8 @@ const Nav = ({ onTransmitClick }) => {
           <Link to="/gallery" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
             <span className="mobile-link-num">05</span> GALLERY
           </Link>
-          <Link to="/classified" className="mobile-nav-link" onClick={() => setMobileOpen(false)} style={{ color: '#ff5555' }}>
-            <span className="mobile-link-num" style={{ color: '#ff5555' }}>06</span> 📁 CLASSIFIED // 001
-          </Link>
           <Link to="/vault" className="mobile-nav-link" onClick={() => setMobileOpen(false)} style={{ color: 'var(--color-gold, #C5A880)' }}>
-            <span className="mobile-link-num" style={{ color: 'var(--color-gold, #C5A880)' }}>07</span> 🏎️ SECRET PROTOCOLS
+            <span className="mobile-link-num" style={{ color: 'var(--color-gold, #C5A880)' }}>06</span> 🏎️ SECRET PROTOCOLS
           </Link>
           <a href="#" onClick={handleContactClick} className="mobile-nav-link mobile-cta">
             CONTACT ↗

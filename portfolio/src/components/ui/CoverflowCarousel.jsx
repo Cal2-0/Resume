@@ -6,7 +6,7 @@ import "../../styles/components/coverflow.css";
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function CoverflowCarousel({
-  slides,
+  slides = [],
   rotate = 44,
   depth = 0.6,
   perspective = 3,
@@ -33,13 +33,16 @@ export function CoverflowCarousel({
   const [selected, setSelected] = useState(0);
 
   const indexAt = useCallback(
-    (pos) => ((Math.round(pos) % count) + count) % count,
+    (pos) => {
+      if (!count) return 0;
+      return ((Math.round(pos) % count) + count) % count;
+    },
     [count],
   );
 
   const paint = useCallback(() => {
     const width = widthRef.current;
-    if (!width) return;
+    if (!width || count === 0) return;
     const pitch = width * (1 + gap);
     const pos = posRef.current;
 
@@ -47,7 +50,7 @@ export function CoverflowCarousel({
       if (!card) return;
 
       let offset = index - pos;
-      if (loop) {
+      if (loop && count > 1) {
         offset = ((offset % count) + count) % count;
         if (offset > count / 2) offset -= count;
       }
@@ -58,11 +61,16 @@ export function CoverflowCarousel({
 
       card.style.transform = `translateX(calc(-50% + ${offset * pitch}px)) translateZ(${-depth * width * ramp}px) rotateY(${-tilt}deg)`;
 
-      const edge = loop ? Math.min(1, Math.max(0, count / 2 - distance)) : 1;
+      const edge = loop && count > 1 ? Math.min(1, Math.max(0, count / 2 - distance)) : 1;
       card.style.opacity = String(Math.max(0, 1 - fade * distance) * edge);
       card.style.zIndex = String(100 - Math.round(distance));
     });
   }, [count, depth, fade, falloff, gap, loop, rotate]);
+
+  const clamp = useCallback(
+    (pos) => (loop ? pos : Math.max(0, Math.min(count - 1, pos))),
+    [count, loop],
+  );
 
   const settle = useCallback(
     (target) => {
@@ -71,14 +79,14 @@ export function CoverflowCarousel({
       setSelected(indexAt(target));
 
       const step = () => {
-        const remaining = target - posRef.current;
+        const remaining = targetRef.current - posRef.current;
         if (Math.abs(remaining) < 0.0004) {
-          posRef.current = target;
+          posRef.current = targetRef.current;
           paint();
           rafRef.current = null;
           return;
         }
-        posRef.current += remaining * 0.16;
+        posRef.current += remaining * 0.18;
         paint();
         rafRef.current = requestAnimationFrame(step);
       };
@@ -87,27 +95,30 @@ export function CoverflowCarousel({
     [indexAt, paint],
   );
 
-  const clamp = useCallback(
-    (pos) => (loop ? pos : Math.max(0, Math.min(count - 1, pos))),
-    [count, loop],
-  );
-
   const goTo = useCallback(
     (index) => {
-      const target = loop
-        ? index + Math.round((targetRef.current - index) / count) * count
-        : index;
-      settle(clamp(target));
+      if (!count) return;
+      const current = targetRef.current;
+      const normalizedCurrent = ((Math.round(current) % count) + count) % count;
+      let diff = index - normalizedCurrent;
+      if (loop && count > 1) {
+        if (diff > count / 2) diff -= count;
+        if (diff < -count / 2) diff += count;
+      }
+      settle(clamp(Math.round(current) + diff));
     },
     [clamp, count, loop, settle],
   );
 
   const nudge = useCallback(
-    (by) => settle(clamp(Math.round(targetRef.current) + by)),
+    (by) => {
+      settle(clamp(Math.round(targetRef.current) + by));
+    },
     [clamp, settle],
   );
 
   const onPointerDown = (event) => {
+    if (event.button !== 0 && event.pointerType === 'mouse') return;
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
@@ -116,10 +127,13 @@ export function CoverflowCarousel({
     targetRef.current = posRef.current;
     dragRef.current = {
       id: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
       x: event.clientX,
       pos: posRef.current,
       v: 0,
       t: performance.now(),
+      hasMoved: false,
     };
   };
 
@@ -127,12 +141,18 @@ export function CoverflowCarousel({
     const drag = dragRef.current;
     if (!drag || drag.id !== event.pointerId) return;
 
+    const dx = event.clientX - drag.startX;
+    const dy = event.clientY - drag.startY;
+    if (!drag.hasMoved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+      drag.hasMoved = true;
+    }
+
     const pitch = widthRef.current * (1 + gap);
     if (!pitch) return;
 
     const now = performance.now();
     const previous = posRef.current;
-    posRef.current = clamp(drag.pos - (event.clientX - drag.x) / pitch);
+    posRef.current = clamp(drag.pos - (event.clientX - drag.startX) / pitch);
     drag.v = ((posRef.current - previous) / Math.max(now - drag.t, 1)) * 1000;
     drag.t = now;
 
@@ -144,9 +164,25 @@ export function CoverflowCarousel({
   const endDrag = (event) => {
     const drag = dragRef.current;
     if (!drag || drag.id !== event.pointerId) return;
+    try {
+      if (event.currentTarget && event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    } catch (_) {}
+
+    const carried = Math.max(-2, Math.min(2, (drag.v || 0) * 0.18));
+    const target = clamp(Math.round(posRef.current + carried));
     dragRef.current = null;
-    const carried = Math.max(-2, Math.min(2, drag.v * 0.18));
-    settle(clamp(Math.round(posRef.current + carried)));
+    settle(target);
+  };
+
+  const handleCardClick = (index, slide) => {
+    if (dragRef.current?.hasMoved) return;
+    if (index !== selected) {
+      goTo(index);
+    } else if (slide.link) {
+      window.open(slide.link, '_blank', 'noopener,noreferrer');
+    }
   };
 
   useIsoLayoutEffect(() => {
@@ -175,9 +211,12 @@ export function CoverflowCarousel({
 
   const active = slides[selected];
 
+  if (!count) return null;
+
   return (
     <div className="cf-carousel-container" style={{ "--cf-card": cardWidth }} role="region" aria-roledescription="carousel" aria-label={label}>
-      <div className="cf-carousel-frame"
+      <div 
+        className="cf-carousel-frame"
         ref={frameRef}
         tabIndex={0}
         onPointerDown={onPointerDown}
@@ -191,9 +230,6 @@ export function CoverflowCarousel({
           } else if (event.key === "ArrowRight") {
             event.preventDefault();
             nudge(1);
-          } else if (event.key === "Enter" && active?.slug) {
-            // allow opening with enter key
-            window.location.hash = `#/field-notes/${active.slug}`;
           }
         }}
         style={{ perspective: `calc(var(--cf-card) * ${perspective})` }}
@@ -208,55 +244,81 @@ export function CoverflowCarousel({
               role="group"
               aria-roledescription="slide"
               aria-label={`${index + 1} of ${count}`}
-              className="cf-card-wrapper"
+              className={`cf-card-wrapper ${index === selected ? "active" : ""}`}
               style={{ width: "var(--cf-card)" }}
+              onClick={() => handleCardClick(index, slide)}
             >
-              {slide.slug ? (
-                <Link to={`/blog/${slide.slug}`} className="cf-card-link" onClick={onImageClick} tabIndex={-1} draggable={false}>
-                  <img src={slide.src} alt={slide.alt} draggable={false} className="cf-card-image" />
-                </Link>
-              ) : (
-                <img src={slide.src} alt={slide.alt} draggable={false} className="cf-card-image" loading="lazy" style={{ opacity: 0, transition: 'opacity 0.5s ease' }} onLoad={(e) => { e.target.style.opacity = 1; }} />
+              <img 
+                src={slide.src} 
+                alt={slide.alt || `Evidence slide ${index + 1}`} 
+                draggable={false} 
+                className="cf-card-image" 
+                loading="lazy" 
+                style={{ opacity: 0, transition: 'opacity 0.5s ease' }} 
+                onLoad={(e) => { e.target.style.opacity = 1; }} 
+              />
+              {index === selected && slide.link && (
+                <div className="cf-card-link-badge">
+                  <span>↗ VERIFIED</span>
+                </div>
               )}
             </div>
           ))}
         </div>
-
-        {showNavigation && (
-          <>
-            <button
-              type="button"
-              aria-label="Previous slide"
-              onClick={() => nudge(-1)}
-              className="cf-nav-button cf-nav-button-left"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button
-              type="button"
-              aria-label="Next slide"
-              onClick={() => nudge(1)}
-              className="cf-nav-button cf-nav-button-right"
-            >
-              <ChevronRight size={24} />
-            </button>
-          </>
-        )}
       </div>
+
+      {showNavigation && count > 1 && (
+        <>
+          <button
+            type="button"
+            aria-label="Previous slide"
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              nudge(-1);
+            }}
+            className="cf-nav-button cf-nav-button-left"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            type="button"
+            aria-label="Next slide"
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              nudge(1);
+            }}
+            className="cf-nav-button cf-nav-button-right"
+          >
+            <ChevronRight size={22} />
+          </button>
+        </>
+      )}
 
       {showCaption && active?.title && (
         <div key={selected} className="cf-caption">
           <p className="cf-caption-title">{active.title}</p>
           {active.subtitle && <p className="cf-caption-subtitle">{active.subtitle}</p>}
-          {active.slug && (
-            <Link to={`/field-notes/${active.slug}`} style={{ color: 'var(--color-gold)', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', marginTop: '1rem', textDecoration: 'none' }}>
+          {active.link && (
+            <a 
+              href={active.link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="cf-caption-link"
+            >
+              ↗ VERIFY EVIDENCE RECORD
+            </a>
+          )}
+          {active.slug && !active.link && (
+            <Link to={`/field-notes/${active.slug}`} className="cf-caption-link">
               ↗ INVESTIGATE FILE
             </Link>
           )}
         </div>
       )}
 
-      {showPagination && (
+      {showPagination && count > 1 && (
         <div className="cf-pagination">
           {slides.map((_, index) => (
             <button
@@ -264,7 +326,11 @@ export function CoverflowCarousel({
               type="button"
               aria-label={`Go to slide ${index + 1}`}
               aria-current={index === selected}
-              onClick={() => goTo(index)}
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                goTo(index);
+              }}
               className={`cf-dot ${index === selected ? "active" : ""}`}
             />
           ))}

@@ -17,7 +17,7 @@ const collections = [
 
 files.forEach(file => {
   const isVideo = file.toLowerCase().endsWith('.mp4') || file.toLowerCase().endsWith('.mov');
-  
+
   if (isVideo) {
     collections.find(c => c.id === 'video').files.push(file);
   } else if (file.startsWith('tx-')) {

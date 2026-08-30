@@ -18,9 +18,13 @@ const HoverPreview = ({ children, visualKey, image, title, subtitle }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
+    // Check if device supports fine hover pointer
+    const hasFineHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!hasFineHover) return;
+
     // Quick GSAP to follow cursor
     const handleMouseMove = (e) => {
-      if (!isHovered || !previewRef.current) return;
+      if (!isHovered || !previewRef.current || !containerRef.current) return;
       
       const rect = containerRef.current.getBoundingClientRect();
       // Calculate cursor position relative to container
@@ -30,7 +34,7 @@ const HoverPreview = ({ children, visualKey, image, title, subtitle }) => {
       gsap.to(previewRef.current, {
         x: x + 20, // Offset so it doesn't block cursor
         y: y - 100,
-        duration: 0.4,
+        duration: 0.3,
         ease: 'power3.out'
       });
     };
@@ -47,13 +51,23 @@ const HoverPreview = ({ children, visualKey, image, title, subtitle }) => {
     };
   }, [isHovered]);
 
+  const handleMouseEnter = () => {
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <div 
       ref={containerRef}
       className="hover-preview-container" 
       style={{ position: 'relative' }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {children}
       

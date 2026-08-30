@@ -45,6 +45,7 @@ const FieldEvidence = () => {
       alt: tx.type,
       title: `${tx.type} // ${tx.date}`,
       subtitle: tx.content.substring(0, 100) + '...',
+      link: tx.link,
     }));
 
   return (
