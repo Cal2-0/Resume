@@ -18,11 +18,9 @@ const Cursor = () => {
     gsap.set(cursor, { xPercent: -50, yPercent: -50, opacity: 0 });
     trails.forEach(t => gsap.set(t, { xPercent: -50, yPercent: -50, opacity: 0 }));
 
-    let mouseX = 0, mouseY = 0;
-
     const moveCursor = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
 
       gsap.to(cursor, {
         x: mouseX,
@@ -44,45 +42,29 @@ const Cursor = () => {
       });
     };
 
-    const handleHover = () => {
-      gsap.to(cursor, { scale: 2.5, duration: 0.3, ease: 'power2.out', mixBlendMode: 'difference' });
+    // Use event delegation instead of MutationObserver to prevent memory leaks
+    const interactiveSelector = 'a, button, .archive-item, .tx-card, .record-card';
+
+    const handleMouseOver = (e) => {
+      if (e.target.closest(interactiveSelector)) {
+        gsap.to(cursor, { scale: 2.5, duration: 0.3, ease: 'power2.out', mixBlendMode: 'difference' });
+      }
     };
 
-    const handleLeave = () => {
-      gsap.to(cursor, { scale: 1, duration: 0.3, ease: 'power2.out', mixBlendMode: 'normal' });
+    const handleMouseOut = (e) => {
+      if (e.target.closest(interactiveSelector)) {
+        gsap.to(cursor, { scale: 1, duration: 0.3, ease: 'power2.out', mixBlendMode: 'normal' });
+      }
     };
 
     window.addEventListener('mousemove', moveCursor);
-
-    // Attach hover effects to links and specific interactive elements
-    const attachHoverListeners = () => {
-      const interactiveElements = document.querySelectorAll('a, button, .archive-item, .tx-card, .record-card');
-      interactiveElements.forEach((el) => {
-        el.addEventListener('mouseenter', handleHover);
-        el.addEventListener('mouseleave', handleLeave);
-      });
-      return interactiveElements;
-    };
-
-    const elements = attachHoverListeners();
-
-    // Re-attach on DOM changes (e.g. route changes)
-    const observer = new MutationObserver(() => {
-      const newElements = document.querySelectorAll('a, button, .archive-item, .tx-card, .record-card');
-      newElements.forEach((el) => {
-        el.addEventListener('mouseenter', handleHover);
-        el.addEventListener('mouseleave', handleLeave);
-      });
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
+    document.body.addEventListener('mouseover', handleMouseOver);
+    document.body.addEventListener('mouseout', handleMouseOut);
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
-      elements.forEach((el) => {
-        el.removeEventListener('mouseenter', handleHover);
-        el.removeEventListener('mouseleave', handleLeave);
-      });
-      observer.disconnect();
+      document.body.removeEventListener('mouseover', handleMouseOver);
+      document.body.removeEventListener('mouseout', handleMouseOut);
     };
   }, []);
 

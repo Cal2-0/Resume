@@ -10,6 +10,17 @@ const ArticleView = () => {
   const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [relatedArticle, setRelatedArticle] = useState(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+      setScrollProgress(progress);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const data = getArticleBySlug(slug);
@@ -31,6 +42,16 @@ const ArticleView = () => {
 
   return (
     <article className="blog-reader-scene">
+      {/* Reading Progress Bar */}
+      <div 
+        className="reading-progress-bar" 
+        style={{ 
+          position: 'fixed', top: 0, left: 0, height: '4px', 
+          backgroundColor: 'var(--color-gold)', zIndex: 100, 
+          width: `${scrollProgress}%`, transition: 'width 0.1s ease-out' 
+        }} 
+      />
+
       <div className="bureau-container">
         
         {/* Navigation Bar */}
@@ -93,6 +114,30 @@ const ArticleView = () => {
 
             <div className="reader-content">
               <MarkdownRenderer content={article.content} />
+            </div>
+
+            {/* Author Card & Share Section */}
+            <div className="article-extras">
+              <div className="article-share-section">
+                <span className="share-label">SHARE DISCOVERY</span>
+                <div className="share-buttons">
+                  <button className="share-btn" onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert("Link copied to clipboard");
+                  }}>COPY LINK</button>
+                  <a href={`https://twitter.com/intent/tweet?url=${window.location.href}&text=${encodeURIComponent(article.title)}`} target="_blank" rel="noreferrer" className="share-btn">X / TWITTER</a>
+                  <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}&title=${encodeURIComponent(article.title)}`} target="_blank" rel="noreferrer" className="share-btn">LINKEDIN</a>
+                </div>
+              </div>
+
+              <div className="article-author-card">
+                <img src="/me.JPG" alt="Calvin Dsouza" className="author-avatar" />
+                <div className="author-info">
+                  <span className="author-label">WRITTEN BY</span>
+                  <h3 className="author-name">Calvin Dsouza</h3>
+                  <p className="author-bio">Building intelligent systems and trying to understand why things break at scale. Currently exploring the intersection of AI, signal processing, and systems engineering.</p>
+                </div>
+              </div>
             </div>
 
             <footer className="reader-footer">

@@ -9,9 +9,9 @@ heroImage: "TECHNICAL_BLACK"
 readingTime: "11 min"
 ---
 
-If you look at a deepfake from 2022, you can see it with your eyes. The blinking is weird, the teeth are a blur, and the lighting on the cheekbones doesn't match the background.
+Open a deepfake from 2022. It's easy to spot. The blinking is weird, the teeth are a blurry mess, and the lighting on the cheekbones doesn't match the background. It looks like a video game cutscene.
 
-If you look at a deepfake generated today, your eyes are useless.
+Now open a deepfake generated this month. Your eyes are utterly useless. 
 
 The spatial artifacts—the visual glitches—are largely gone. So how do you detect something that visually looks perfect? I couldn't stop thinking about this, which led to the Lucent.ai research project.
 
@@ -39,16 +39,16 @@ When you look at a deepfake in the frequency domain, you see severe grid-like ar
 
 The ridiculous part is that deepfake creators *know* about this.
 
-There is currently an arms race happening. As researchers publish papers on frequency anomalies, model creators update their architectures to smooth out the frequency spectrum. It's a continuous game of mathematical cat-and-mouse.
+There is a literal arms race happening right now. Every time researchers publish papers on frequency anomalies, model creators read those exact papers and update their architectures to smooth out the frequency spectrum. We find a fingerprint; they wipe it down. It's a continuous game of mathematical cat-and-mouse.
 
 > [!WARNING]
 > We cannot rely on "black box" detection models. If an AI just says "99% Fake," it is useless in a legal or intelligence context. The forensics must be interpretable by a human expert.
 
 ### MY TAKE
 
-Detecting synthetic media is no longer a computer vision problem; it is a cybersecurity problem. 
+Detecting synthetic media is no longer just a neat computer vision problem; it is a critical national security problem. 
 
-The defense cannot rely on visual inspection. It requires building intelligence systems that understand the mathematical signatures of specific generative architectures. Lucent proves that the fingerprint is still there—you just have to look for it outside the visible spectrum.
+The defense cannot rely on visual inspection. If you're looking for artifacts with your eyes, you've already lost. It requires building intelligence systems that understand the mathematical signatures of specific generative architectures. Lucent proves that the fingerprint is still there—you just have to look for it outside the visible spectrum.
 
 ### SOURCES
 01 Lucent Research Notes on Spatial vs Frequency Artifacts

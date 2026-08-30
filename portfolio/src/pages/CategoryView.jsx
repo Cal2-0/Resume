@@ -50,7 +50,7 @@ const CategoryView = () => {
             <div className="editorial-feature" style={{ flexDirection: 'column', gap: '2rem' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 4rem)', lineHeight: 1, maxWidth: '800px', margin: '1rem auto' }}>
-                  <Link to={`/blog/${featured.slug}`} style={{ color: 'var(--color-ink)', textDecoration: 'none' }}>
+                  <Link to={`/writing/${featured.slug}`} style={{ color: 'var(--color-ink)', textDecoration: 'none' }}>
                     {featured.title}
                   </Link>
                 </h2>
@@ -59,13 +59,13 @@ const CategoryView = () => {
                   <span>{featured.readingTime}</span>
                 </div>
                 <div style={{ marginTop: '2rem' }}>
-                  <Link to={`/blog/${featured.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', color: 'var(--color-bg-dark)', backgroundColor: 'var(--color-gold)', padding: '0.75rem 1.5rem', textDecoration: 'none', border: '1px solid var(--color-gold)' }}>
+                  <Link to={`/writing/${featured.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', color: 'var(--color-bg-dark)', backgroundColor: 'var(--color-gold)', padding: '0.75rem 1.5rem', textDecoration: 'none', border: '1px solid var(--color-gold)' }}>
                     [ READ FULL DOSSIER ↗ ]
                   </Link>
                 </div>
               </div>
               {featured.heroImage && featured.heroImage !== 'CINEMATIC' && featured.heroImage !== 'TECHNICAL_BLACK' && (
-                <Link to={`/blog/${featured.slug}`}>
+                <Link to={`/writing/${featured.slug}`}>
                   <div style={{ width: '100%', height: '60vh', backgroundColor: 'var(--color-graphite)', backgroundImage: `url(${featured.heroImage})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: 'opacity 0.3s ease' }} onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'} onMouseOut={(e) => e.currentTarget.style.opacity = '1'} />
                 </Link>
               )}
@@ -92,7 +92,7 @@ const CategoryView = () => {
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--color-graphite)', margin: '0 0 1rem 0' }}>
                       {article.subtitle}
                     </p>
-                    <Link to={`/blog/${article.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-gold)', textDecoration: 'none' }}>
+                    <Link to={`/writing/${article.slug}`} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-gold)', textDecoration: 'none' }}>
                       READ FILE ↗
                     </Link>
                   </div>

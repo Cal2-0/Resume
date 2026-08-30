@@ -55,7 +55,7 @@ const FieldNotesMagazine = () => {
         
         <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--color-silver)' }}>
           <div>CALVIN DSOUZA<br/>EST. 2024</div>
-          <div>CURRENTLY INVESTIGATING: 06<br/>ARCHIVED NOTES: {articles.length}</div>
+          <div>CURRENTLY INVESTIGATING: {(stats['RESEARCH'] || 0).toString().padStart(2, '0')}<br/>ARCHIVED NOTES: {articles.length.toString().padStart(2, '0')}</div>
         </div>
       </div>
 

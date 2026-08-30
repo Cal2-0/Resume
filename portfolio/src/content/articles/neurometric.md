@@ -9,13 +9,15 @@ heroImage: "TECHNICAL_BLACK"
 readingTime: "9 min"
 ---
 
-Humans are incredibly noisy signal generators. When we speak, our words convey one message, our micro-expressions convey another, and where we look tells an entirely different story.
+I noticed something about myself recently. When I'm anxious, I can control my voice. I can control my facial expressions. I can look completely calm. But my eyes do this rapid, almost imperceptible scanning thing that I absolutely cannot stop.
 
-I wanted to know if a machine could fuse these distinct, noisy signals into a coherent understanding of human state.
+Humans are incredibly noisy, contradictory signal generators. When we speak, our words convey one message, our micro-expressions convey another, and where we look tells an entirely different story.
+
+I wanted to know if a machine could see through the noise, fuse these distinct signals, and actually understand human state.
 
 ### THE QUESTION
 
-How do you build a multimodal behavioral analytics system that is actually accurate in real-time, on a mobile device?
+How do you build a multimodal behavioral analytics system that is actually accurate in real-time, on a mobile device, without violating every known boundary of human privacy?
 
 Most systems look at one thing: either sentiment analysis of text, or facial emotion recognition. But human behavior is multimodal. If you say "I'm fine" while avoiding eye contact and exhibiting micro-stress in your jaw, the text sentiment is positive, but the actual state is anxious.
 
@@ -35,20 +37,20 @@ The magic happens in the fusion layer. It doesn't treat these inputs independent
 
 Running this on a phone is ridiculous. 
 
-Computer vision is computationally expensive. Running gaze tracking and facial landmark detection simultaneously at 30 frames per second will melt a smartphone battery in minutes.
+Computer vision is computationally expensive. Running gaze tracking and facial landmark detection simultaneously at 30 frames per second will melt a smartphone battery in about ten minutes, turning the device into a very expensive hand warmer.
 
-The engineering solution was to aggressively downsample the video feed and only run the heavy inference models when a "trigger event" (like a sudden change in audio pitch) occurs. We essentially built an attention mechanism for the camera itself—it only looks closely when it needs to.
+The engineering solution was to aggressively downsample the video feed and only run the heavy inference models when a "trigger event" (like a sudden change in audio pitch or volume) occurs. We essentially built an attention mechanism for the camera itself—it only looks closely when it needs to.
 
 > [!CAUTION]
-> Behavioral analytics sits on a very thin line between "useful insight" and "dystopian surveillance." The strict rule for NeuroMetric was: all processing happens on-device. No raw video or audio ever hits a server. 
+> Building this gave me genuine pause. Behavioral analytics sits on a very thin, terrifying line between "useful insight" and "dystopian surveillance." The absolute, non-negotiable rule for NeuroMetric was: all processing happens on-device. No raw video, no audio, and no telemetry ever hits a server. 
 
 ### MY TAKE
 
 What surprised me the most was how much our eyes give away. 
 
-We can control our words, and we can mostly control our facial expressions. But saccades and pupil dilation are autonomic. If a system can read them accurately in real-time, it creates an incredibly powerful channel for human-computer interaction. Imagine an educational app that *knows* when you're confused just by how your eyes are scanning a paragraph, and dynamically adjusts the content.
+We can control our words, and we can mostly control our facial expressions. But saccades and pupil dilation are autonomic. If a system can read them accurately in real-time, it creates an incredibly powerful channel for human-computer interaction. Imagine an educational app that *knows* when you're confused just by how your eyes are scanning a paragraph, and dynamically adjusts the content to help you.
 
-That's the rabbit hole I'm still falling down.
+That's the rabbit hole I'm still falling down. How do we build machines that understand us better than we understand ourselves, while still keeping our thoughts private?
 
 ### SOURCES
 01 NeuroMetric Edge Inference Benchmarks

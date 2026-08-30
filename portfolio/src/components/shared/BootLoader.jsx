@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import gsap from 'gsap';
 
-const BootLoader = ({ onComplete }) => {
-  const [text, setText] = useState('');
-  const fullText = `> INIT SYSTEM...
+const BOOT_TEXT = `> INIT SYSTEM...
 > ESTABLISHING SECURE CONNECTION...
 > BYPASSING FIREWALL...
 > ACCESS GRANTED.
 > WELCOME TO THE BUREAU.`;
+
+const BootLoader = ({ onComplete }) => {
+  const [text, setText] = useState('');
 
   useEffect(() => {
     let currentText = '';
@@ -15,10 +16,10 @@ const BootLoader = ({ onComplete }) => {
     
     // Typewriter effect
     const timer = setInterval(() => {
-      currentText += fullText.charAt(i);
+      currentText += BOOT_TEXT.charAt(i);
       setText(currentText);
       i++;
-      if (i >= fullText.length) {
+      if (i >= BOOT_TEXT.length) {
         clearInterval(timer);
         
         // Wait a beat, then fade out
@@ -36,7 +37,7 @@ const BootLoader = ({ onComplete }) => {
     }, 20); // Fast typing speed
 
     return () => clearInterval(timer);
-  }, [onComplete, fullText]);
+  }, [onComplete]);
 
   return (
     <div className="boot-loader" style={{
@@ -50,7 +51,7 @@ const BootLoader = ({ onComplete }) => {
       padding: '2rem',
       fontFamily: '"JetBrains Mono", "Fira Code", monospace',
       fontSize: 'clamp(0.8rem, 2vw, 1.2rem)',
-      color: '#34D399', // Terminal Green
+      color: '#E8D5B5', // Bureau Gold instead of Terminal Green
       whiteSpace: 'pre-wrap'
     }}>
       <div style={{ maxWidth: '600px', margin: '0 auto', width: '100%' }}>
@@ -59,7 +60,7 @@ const BootLoader = ({ onComplete }) => {
           display: 'inline-block',
           width: '8px',
           height: '1.2em',
-          backgroundColor: '#34D399',
+          backgroundColor: '#E8D5B5',
           marginLeft: '4px',
           verticalAlign: 'middle',
           animation: 'blink 1s step-end infinite'

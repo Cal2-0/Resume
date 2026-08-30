@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, Component } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { initSmoothScroll, lenisInstance } from './utils/smoothScroll';
 import { initScrollAnimations } from './utils/animations';
@@ -16,14 +16,39 @@ import ArticleView from './pages/ArticleView';
 import CategoryView from './pages/CategoryView';
 import Gallery from './components/sections/Gallery';
 import ProjectArchive from './pages/ProjectArchive';
+import NotFound from './pages/NotFound';
+import Uses from './pages/Uses';
+import Timeline from './pages/Timeline';
+import Classified from './pages/Classified';
 import Nav from './components/sections/Nav';
 import Footer from './components/sections/Footer';
 import Cursor from './components/shared/Cursor';
 import ScrollProgress from './components/shared/ScrollProgress';
 import TransmitModal from './components/shared/TransmitModal';
-import BootLoader from './components/shared/BootLoader';
+import TerminalOverlay from './components/shared/TerminalOverlay';
 
 import './index.css';
+
+const KonamiListener = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let keys = [];
+    const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    
+    const handleKeyDown = (e) => {
+      keys.push(e.key);
+      keys = keys.slice(-10);
+      if (keys.join('') === konami.join('')) {
+        navigate('/classified');
+        keys = [];
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [navigate]);
+  return null;
+};
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
@@ -119,9 +144,61 @@ const Home = () => (
   </>
 );
 
+// ─── ERROR BOUNDARY ─────────────────────────────────────────
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'var(--color-bg-dark, #0A0A0B)',
+          color: '#F3F4F6',
+          fontFamily: 'monospace',
+          padding: '2rem',
+          textAlign: 'center'
+        }}>
+          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(3rem, 8vw, 6rem)', marginBottom: '1rem', color: '#E8D5B5' }}>SYSTEM FAILURE</h1>
+          <p style={{ fontSize: '1rem', color: '#6B7280', marginBottom: '2rem', maxWidth: '500px' }}>
+            A critical error has occurred in the Bureau's systems.<br/>
+            Our engineers have been notified.
+          </p>
+          <button
+            onClick={() => { this.setState({ hasError: false }); window.location.href = '/'; }}
+            style={{
+              padding: '12px 24px',
+              border: '1px solid #E8D5B5',
+              background: 'transparent',
+              color: '#E8D5B5',
+              fontFamily: 'monospace',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              letterSpacing: '0.1em'
+            }}
+          >
+            [ REBOOT SYSTEM ]
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function App() {
   const [transmitOpen, setTransmitOpen] = useState(false);
-  const [booting, setBooting] = useState(true);
 
   useEffect(() => {
     const lenis = initSmoothScroll();
@@ -141,44 +218,42 @@ function App() {
   const closeTransmit = () => setTransmitOpen(false);
 
   return (
-    <Router>
-      {booting && <BootLoader onComplete={() => setBooting(false)} />}
-      <div className="app-wrapper" style={{ opacity: booting ? 0 : 1, transition: 'opacity 0.1s' }}>
-        {/* Film Grain Overlay */}
-        <div style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 99997,
-          pointerEvents: 'none',
-          opacity: 0.04,
-          background: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")'
-        }} />
-
-        <ScrollToTop />
-        <PageTitle />
-        <ScrollProgress />
-        <Cursor />
-        <Nav onTransmitClick={openTransmit} />
-        <main className="app-container">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/work" element={<ProjectArchive />} />
-            <Route path="/writing" element={<FieldNotes />} />
-            <Route path="/writing/category/:categoryId" element={<CategoryView />} />
-            <Route path="/writing/:slug" element={<ArticleView />} />
-            <Route path="/transmissions" element={<Transmissions />} />
-            {/* Legacy redirects */}
-            <Route path="/archive" element={<ProjectArchive />} />
-            <Route path="/blog" element={<FieldNotes />} />
-            <Route path="/blog/:slug" element={<ArticleView />} />
-            <Route path="/blog/category/:categoryId" element={<CategoryView />} />
-          </Routes>
-        </main>
-        <Footer onTransmitClick={openTransmit} />
-        <TransmitModal isOpen={transmitOpen} onClose={closeTransmit} />
-      </div>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <div className="app-wrapper">
+          <ScrollToTop />
+          <PageTitle />
+          <KonamiListener />
+          <TerminalOverlay />
+          <ScrollProgress />
+          <Cursor />
+          <Nav onTransmitClick={openTransmit} />
+          <main className="app-container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/work" element={<ProjectArchive />} />
+              <Route path="/writing" element={<FieldNotes />} />
+              <Route path="/writing/category/:categoryId" element={<CategoryView />} />
+              <Route path="/writing/:slug" element={<ArticleView />} />
+              <Route path="/transmissions" element={<Transmissions />} />
+              <Route path="/uses" element={<Uses />} />
+              <Route path="/timeline" element={<Timeline />} />
+              <Route path="/classified" element={<Classified />} />
+              {/* Legacy redirects */}
+              <Route path="/archive" element={<ProjectArchive />} />
+              <Route path="/blog" element={<FieldNotes />} />
+              <Route path="/blog/:slug" element={<ArticleView />} />
+              <Route path="/blog/category/:categoryId" element={<CategoryView />} />
+              {/* 404 Catch-all */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer onTransmitClick={openTransmit} />
+          <TransmitModal isOpen={transmitOpen} onClose={closeTransmit} />
+        </div>
+      </Router>
+    </ErrorBoundary>
   );
 }
 
