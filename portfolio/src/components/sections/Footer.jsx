@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../../styles/scenes/footer.css';
@@ -8,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Footer = ({ onTransmitClick }) => {
   const footerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -129,7 +131,15 @@ const Footer = ({ onTransmitClick }) => {
 
           <div className="signature-bottom">
             <span className="signature-copyright">
-              © {new Date().getFullYear()} THE BUREAU — DSOUZA <span onClick={() => window.location.href='/classified'} style={{ cursor: 'default' }}>001</span>
+              © {new Date().getFullYear()} THE BUREAU — DSOUZA 
+              <button 
+                className="footer-classified-trigger"
+                onClick={() => navigate('/classified')}
+                title="[ TOP SECRET // DOSSIER 001 ]"
+                aria-label="Access Classified Dossier 001"
+              >
+                001
+              </button>
             </span>
             <span className="signature-built">
               BUILT WITH OBSESSION & RESEARCH

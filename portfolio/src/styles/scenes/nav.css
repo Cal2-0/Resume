@@ -21,6 +21,33 @@
   align-items: center;
 }
 
+.nav-f1-trigger {
+  text-decoration: none;
+  font-size: 1.15rem;
+  opacity: 0.65;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: rgba(197, 168, 128, 0.08);
+  border: 1px solid rgba(197, 168, 128, 0.25);
+  line-height: 1;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-f1-trigger:hover,
+.nav-f1-trigger:active {
+  opacity: 1;
+  background: rgba(197, 168, 128, 0.22);
+  border-color: var(--color-gold, #C5A880);
+  transform: scale(1.18);
+  filter: drop-shadow(0 0 10px rgba(197, 168, 128, 0.8));
+}
+
 .nav-logo {
   font-family: var(--font-display);
   font-size: clamp(1.1rem, 3vw, var(--type-subhead));
