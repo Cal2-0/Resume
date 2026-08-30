@@ -20,6 +20,7 @@ import NotFound from './pages/NotFound';
 import Uses from './pages/Uses';
 import Timeline from './pages/Timeline';
 import Classified from './pages/Classified';
+import SecretProtocols from './pages/SecretProtocols';
 import Nav from './components/sections/Nav';
 import Footer from './components/sections/Footer';
 import Cursor from './components/shared/Cursor';
@@ -28,6 +29,7 @@ import TransmitModal from './components/shared/TransmitModal';
 import TerminalOverlay from './components/shared/TerminalOverlay';
 
 import './index.css';
+import './styles/scenes/audit.css';
 
 const KonamiListener = () => {
   const navigate = useNavigate();
@@ -221,6 +223,12 @@ function App() {
     <ErrorBoundary>
       <Router>
         <div className="app-wrapper">
+          <div className="audit-status-overlay">
+            <p>SYSTEM BREACH DETECTED</p>
+            <p>SCANNING DOM NODES...</p>
+            <p style={{ color: '#ffaaaa' }}>WARNING: Unsanitized input exposed.</p>
+            <p>ROOT ACCESS GRANTED<span className="audit-cursor"></span></p>
+          </div>
           <ScrollToTop />
           <PageTitle />
           <KonamiListener />
@@ -240,6 +248,8 @@ function App() {
               <Route path="/uses" element={<Uses />} />
               <Route path="/timeline" element={<Timeline />} />
               <Route path="/classified" element={<Classified />} />
+              <Route path="/vault" element={<SecretProtocols />} />
+              <Route path="/protocols" element={<SecretProtocols />} />
               {/* Legacy redirects */}
               <Route path="/archive" element={<ProjectArchive />} />
               <Route path="/blog" element={<FieldNotes />} />

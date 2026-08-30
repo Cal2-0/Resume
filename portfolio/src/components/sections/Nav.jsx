@@ -50,9 +50,45 @@ const Nav = ({ onTransmitClick }) => {
   return (
     <header className="bureau-nav" ref={navRef}>
       <div className="nav-container">
-        <Link to="/" className="nav-logo" onClick={() => setMobileOpen(false)}>
-          CALVIN <span className="nav-logo-badge">DSOUZA</span>
-        </Link>
+        
+        {/* Left Side: Hidden F1 Trigger & Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          
+          {/* Extreme Left Covert F1 Trigger */}
+          <Link
+            to="/vault"
+            title="[ SECRET PROTOCOLS // DECLASSIFIED OVERRIDES ]"
+            aria-label="Open Secret Protocols"
+            style={{
+              textDecoration: 'none',
+              fontSize: '1rem',
+              opacity: 0.25,
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4px',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '1';
+              e.currentTarget.style.transform = 'scale(1.25) translateX(2px)';
+              e.currentTarget.style.filter = 'drop-shadow(0 0 8px rgba(197, 168, 128, 0.8))';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '0.25';
+              e.currentTarget.style.transform = 'scale(1) translateX(0)';
+              e.currentTarget.style.filter = 'none';
+            }}
+          >
+            🏎️
+          </Link>
+
+          <Link to="/" className="nav-logo" onClick={() => setMobileOpen(false)}>
+            CALVIN <span className="nav-logo-badge">DSOUZA</span>
+          </Link>
+        </div>
 
         {/* Desktop Nav — 5 clear items */}
         <nav className="nav-links">
@@ -94,6 +130,9 @@ const Nav = ({ onTransmitClick }) => {
           </a>
           <Link to="/gallery" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
             <span className="mobile-link-num">05</span> GALLERY
+          </Link>
+          <Link to="/vault" className="mobile-nav-link" onClick={() => setMobileOpen(false)} style={{ color: 'var(--color-gold, #C5A880)' }}>
+            <span className="mobile-link-num">06</span> 🏎️ SECRET VAULT
           </Link>
           <a href="#" onClick={handleContactClick} className="mobile-nav-link mobile-cta">
             CONTACT ↗

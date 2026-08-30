@@ -1,0 +1,15 @@
+FUTURE PORTFOLIO IDEAS
+======================
+
+IDEA B: Live 3D Threat Intelligence Map
+Instead of a static background, we integrate a WebGL / Three.js interactive 3D globe (like Kaspersky's cyber map, but styled in your Cyber-Noir Gold/Purple). It slowly rotates in the background of your hero section, displaying simulated "pings" and network traffic. It instantly screams "Cybersecurity Engineer" the second the page loads.
+
+IDEA C: AI Proxy Chat in the Terminal
+Hook the terminal up to a real (or highly advanced simulated) AI. A recruiter types `interview` into the terminal, and an AI trained on your resume starts answering their questions directly on your site.
+
+IDEA D: Decrypting Articles
+When a user clicks an article, the text initially appears as scrambled cryptographic hashes (like Matrix code). As they scroll down, the text "decrypts" line by line into readable English.
+
+ADDITIONAL IDEAS:
+- "Honeypot" Admin Login: A fake /admin route that looks like a login portal. If they try to log in, it logs their "attempt" to the terminal and plays a siren noise.
+- Live Telemetry Dashboard: A page showing live "stats" of your site (mouse clicks, scroll speed, current visitors) formatted like an F1 telemetry screen.

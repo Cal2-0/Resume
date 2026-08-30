@@ -106,9 +106,30 @@ const Footer = ({ onTransmitClick }) => {
 
           <div className="signature-rule" />
 
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+            <button 
+              onClick={() => document.body.classList.toggle('audit-mode')}
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--color-gold)',
+                color: 'var(--color-gold)',
+                padding: '5px 15px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.7rem',
+                cursor: 'pointer',
+                opacity: 0.5,
+                letterSpacing: '2px'
+              }}
+              onMouseEnter={(e) => e.target.style.opacity = 1}
+              onMouseLeave={(e) => e.target.style.opacity = 0.5}
+            >
+              [ RUN SYSTEM AUDIT ]
+            </button>
+          </div>
+
           <div className="signature-bottom">
             <span className="signature-copyright">
-              © {new Date().getFullYear()} THE BUREAU — DSOUZA 001
+              © {new Date().getFullYear()} THE BUREAU — DSOUZA <span onClick={() => window.location.href='/classified'} style={{ cursor: 'default' }}>001</span>
             </span>
             <span className="signature-built">
               BUILT WITH OBSESSION & RESEARCH
