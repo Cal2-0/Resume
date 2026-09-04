@@ -319,4 +319,29 @@
   }
 }
 
+@media (max-width: 600px) {
+  .vault-container {
+    padding: 0 0.75rem;
+  }
+  .vault-nav-tabs {
+    justify-content: flex-start;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-bottom: 16px;
+    gap: 5px;
+  }
+  .vault-tab-btn {
+    padding: 6px 10px;
+    font-size: 0.7rem;
+    gap: 4px;
+  }
+  .vault-panel {
+    padding: 14px 10px;
+  }
+  .vault-panel-title {
+    font-size: 0.95rem;
+  }
+}
+
+
 

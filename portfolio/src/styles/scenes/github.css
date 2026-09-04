@@ -180,6 +180,197 @@
   transform: translate(2px, -2px);
 }
 
+.gh-pinned-section {
+  margin-bottom: var(--space-8);
+}
+
+.gh-section-subhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-rule);
+  padding-bottom: var(--space-2);
+}
+
+.gh-view-all-link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-gold);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s ease;
+}
+
+.gh-view-all-link:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.gh-pinned-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.gh-pinned-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(18, 16, 24, 0.6);
+  border: 1px solid var(--color-rule);
+  padding: 18px;
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.gh-pinned-card:hover {
+  border-color: rgba(197, 168, 128, 0.5);
+  background: rgba(26, 23, 36, 0.85);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+}
+
+.gh-pinned-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.gh-pinned-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #58a6ff;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.gh-pinned-title:hover {
+  text-decoration: underline;
+}
+
+.gh-repo-icon-symbol {
+  font-size: 0.9rem;
+}
+
+.gh-public-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #8b949e;
+  border: 1px solid #30363d;
+  padding: 1px 6px;
+  border-radius: 12px;
+}
+
+.gh-pinned-desc {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-graphite);
+  line-height: 1.45;
+  margin: 0 0 14px 0;
+  flex-grow: 1;
+}
+
+.gh-pinned-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.gh-pinned-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--color-silver);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.gh-pinned-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #8b949e;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.gh-pinned-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gh-lang-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.gh-lang-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.gh-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gh-pinned-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.gh-live-btn,
+.gh-code-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-decoration: none;
+  padding: 3px 8px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.gh-live-btn {
+  background: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
+.gh-live-btn:hover {
+  background: rgba(52, 211, 153, 0.25);
+  border-color: #34d399;
+}
+
+.gh-code-btn {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-silver);
+  border: 1px solid var(--color-rule);
+}
+
+.gh-code-btn:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
 @media (max-width: 768px) {
   .gh-header {
     flex-direction: column;
@@ -188,6 +379,10 @@
   }
 
   .gh-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .gh-pinned-grid {
     grid-template-columns: 1fr;
   }
 
@@ -212,5 +407,11 @@
 @media (max-width: 480px) {
   .gh-stat-val {
     font-size: clamp(1.5rem, 7vw, 2.5rem);
+  }
+
+  .gh-pinned-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 }

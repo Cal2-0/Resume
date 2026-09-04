@@ -39,15 +39,35 @@ const Lightbox = ({ photo, onClose, onNext, onPrev }) => {
   );
 };
 
-const GalleryItem = ({ photo, onClick, className }) => (
-  <div className={`gallery-media-wrapper ${className || ''}`} onClick={() => onClick(photo)}>
-    {photo.type === 'video' ? (
-      <video src={photo.src} autoPlay loop muted playsInline className="gallery-video" />
-    ) : (
-      <img src={photo.src} alt="Archive Capture" className="gallery-image" loading="lazy" />
-    )}
-  </div>
-);
+const GalleryItem = ({ photo, onClick, className }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) return null;
+
+  return (
+    <div className={`gallery-media-wrapper ${className || ''}`} onClick={() => onClick(photo)}>
+      {photo.type === 'video' ? (
+        <video 
+          src={photo.src} 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="gallery-video" 
+          onError={() => setHasError(true)}
+        />
+      ) : (
+        <img 
+          src={photo.src} 
+          alt="Archive Capture" 
+          className="gallery-image" 
+          loading="lazy" 
+          onError={() => setHasError(true)}
+        />
+      )}
+    </div>
+  );
+};
 
 const Gallery = () => {
   const [activeCollectionId, setActiveCollectionId] = useState(galleryCollections[0]?.id);

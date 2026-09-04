@@ -43,17 +43,20 @@ const Person = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.dossier-identity', {
-        x: -60,
-        opacity: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
+      gsap.fromTo('.dossier-identity', 
+        { x: -40, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: 'power3.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+          }
         }
-      });
-
+      );
     }, sectionRef);
     return () => ctx.revert();
   }, []);

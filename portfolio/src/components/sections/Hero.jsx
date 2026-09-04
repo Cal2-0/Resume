@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { profile } from '../../data/profile';
 import meImage from '../../assets/me.JPG';
+import meWebp from '../../assets/me.webp';
 import ClipReveal from '../motion/ClipReveal';
 import Magnetic from '../motion/Magnetic';
 import '../../styles/scenes/person.css';
@@ -42,9 +43,12 @@ const Hero = () => {
       const tlEnter = gsap.timeline();
       
       gsap.set(portraitRef.current, { 
-        scale: 1.05, 
         clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)',
         WebkitClipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)'
+      });
+      gsap.set(portraitImgRef.current, {
+        scale: 1.12,
+        opacity: 0
       });
       gsap.set('.name-char', { y: 150, opacity: 0 });
       gsap.set('.hero-reveal-element', { opacity: 0, y: 20 });
@@ -52,42 +56,49 @@ const Hero = () => {
       // Hide the secondary elements that will appear ON SCROLL
       gsap.set('.entry-disciplines, .entry-linkedin-btn, .entry-telemetry', { opacity: 0 });
 
-      // Wait for image to load before starting entrance animation
+      // Synchronized entrance animation
       const startAnimation = () => {
-        tlEnter.to(portraitRef.current, {
-          scale: 1,
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-          WebkitClipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-          duration: 1.5,
-          ease: 'power3.out'
-        })
-        .to('.name-char', {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.05,
-          ease: 'power4.out'
-        }, '-=1')
-        .to('.hero-reveal-element', {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power2.out'
-        }, '-=0.5');
+        tlEnter
+          .to(portraitRef.current, {
+            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+            WebkitClipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+            duration: 1.4,
+            ease: 'power3.inOut'
+          }, 0)
+          .to(portraitImgRef.current, {
+            scale: 1,
+            opacity: 1,
+            duration: 1.6,
+            ease: 'power3.out'
+          }, 0.1)
+          .to('.name-char', {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            stagger: 0.04,
+            ease: 'power4.out'
+          }, 0.3)
+          .to('.hero-reveal-element', {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power2.out'
+          }, 0.7);
       };
 
       if (imageLoaded) {
         startAnimation();
       } else {
-        // Fallback: start after a short timeout even if image hasn't loaded
-        const fallbackTimer = setTimeout(startAnimation, 2000);
+        // Fast start even if cached or fast-decode
+        const fallbackTimer = setTimeout(startAnimation, 1200);
         const checkImage = setInterval(() => {
           if (imageLoaded) {
             clearTimeout(fallbackTimer);
             clearInterval(checkImage);
             startAnimation();
           }
-        }, 100);
+        }, 50);
       }
 
       // 2. Cinematic Scroll Parallax (Scrubbed Pinned Scene)
@@ -182,15 +193,18 @@ const Hero = () => {
               <span className="entry-label">EST. 2024 ✦ 001</span>
             </div>
             <div className="entry-portrait-wrapper" ref={portraitRef} style={{ overflow: 'hidden' }}>
-              <img 
-                ref={portraitImgRef}
-                src={meImage} 
-                alt="Calvin Dsouza" 
-                className={`entry-portrait-img ${imageLoaded ? 'img-loaded' : ''}`}
-                loading="eager"
-                decoding="async"
-                onLoad={() => setImageLoaded(true)}
-              />
+              <picture>
+                <source srcSet={meWebp} type="image/webp" />
+                <img 
+                  ref={portraitImgRef}
+                  src={meImage} 
+                  alt="Calvin Dsouza" 
+                  className={`entry-portrait-img ${imageLoaded ? 'img-loaded' : ''}`}
+                  loading="eager"
+                  decoding="async"
+                  onLoad={() => setImageLoaded(true)}
+                />
+              </picture>
             </div>
           </div>
 

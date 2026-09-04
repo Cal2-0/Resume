@@ -7,37 +7,8 @@ export const initScrollAnimations = () => {
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
   // ─── PARALLAX DEPTH LAYERS ───
-  // Make different sections scroll at different speeds for depth
-  
-  // Person section: slight parallax on identity card
-  const personIdentity = document.querySelector('.dossier-identity');
-  if (personIdentity && !isMobile) {
-    gsap.to(personIdentity, {
-      y: -60,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.dossier-scene',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.5,
-      }
-    });
-  }
+  // Note: Dossier identity uses clean CSS sticky positioning; artificial translateY parallax removed to prevent header overlaps.
 
-  // Person record: offset parallax for depth separation
-  const personRecord = document.querySelector('.dossier-record');
-  if (personRecord && !isMobile) {
-    gsap.to(personRecord, {
-      y: -30,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.dossier-scene',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 2,
-      }
-    });
-  }
 
   // GitHub telemetry: the dashboard floats up slightly as you scroll
   const ghDashboard = document.querySelector('.gh-dashboard');

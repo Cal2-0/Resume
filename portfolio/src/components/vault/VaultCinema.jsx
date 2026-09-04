@@ -134,33 +134,46 @@ export const VaultCinema = () => {
         </div>
       )}
 
+      {/* Cinema Quick Stats Bar */}
+      <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '20px', padding: '10px 16px', background: 'rgba(15, 14, 22, 0.7)', border: '1px solid rgba(197, 168, 128, 0.2)', borderRadius: '4px', fontFamily: 'var(--font-mono)', fontSize: '0.72rem' }}>
+        <div><span style={{ color: 'var(--color-gold)' }}>CURATED ARCHIVE:</span> <span style={{ color: '#FFF' }}>{MOVIES_DATABASE.length} TITLES</span></div>
+        <div><span style={{ color: 'var(--color-silver)' }}>CURRENT FILTER:</span> <span style={{ color: '#00ffcc' }}>{filteredMovies.length} MATCHES</span></div>
+        <div><span style={{ color: 'var(--color-silver)' }}>CRITERIA:</span> <span style={{ color: '#FFF' }}>INFINITE REWATCHABILITY</span></div>
+      </div>
+
       {/* Search & Category Filter */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%' }}>
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCat(cat.id)}
-              style={{
-                background: selectedCat === cat.id ? 'var(--color-gold)' : 'rgba(20, 20, 26, 0.6)',
-                color: selectedCat === cat.id ? '#070709' : '#8E8D8A',
-                border: `1px solid ${selectedCat === cat.id ? 'var(--color-gold)' : 'rgba(197, 168, 128, 0.2)'}`,
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.74rem',
-                padding: '6px 12px',
-                borderRadius: '3px',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                fontWeight: selectedCat === cat.id ? 'bold' : 'normal',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              {cat.label}
-            </button>
-          ))}
+          {CATEGORIES.map(cat => {
+            const count = cat.id === 'ALL' ? MOVIES_DATABASE.length : MOVIES_DATABASE.filter(m => m.category === cat.id).length;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCat(cat.id)}
+                style={{
+                  background: selectedCat === cat.id ? 'var(--color-gold)' : 'rgba(20, 20, 26, 0.6)',
+                  color: selectedCat === cat.id ? '#070709' : 'var(--color-silver)',
+                  border: `1px solid ${selectedCat === cat.id ? 'var(--color-gold)' : 'rgba(197, 168, 128, 0.2)'}`,
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.74rem',
+                  padding: '6px 12px',
+                  borderRadius: '3px',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  fontWeight: selectedCat === cat.id ? 'bold' : 'normal',
+                  transition: 'all 0.2s ease',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                {cat.label} <span style={{ opacity: 0.7, fontSize: '0.65rem' }}>({count})</span>
+              </button>
+            );
+          })}
         </div>
 
-        <div style={{ position: 'relative', width: '220px' }}>
+        <div style={{ position: 'relative', width: '220px', minWidth: '180px' }}>
           <input
             type="text"
             placeholder="Search movie archive..."
@@ -188,19 +201,20 @@ export const VaultCinema = () => {
           <div
             key={idx}
             style={{
-              background: 'rgba(20, 20, 26, 0.6)',
+              background: 'rgba(16, 15, 22, 0.75)',
               border: '1px solid rgba(197, 168, 128, 0.2)',
-              borderRadius: '6px',
+              borderRadius: '4px',
               padding: '16px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              transition: 'all 0.25s ease'
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              position: 'relative'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = 'var(--color-gold, #C5A880)';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.5)';
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.5)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = 'rgba(197, 168, 128, 0.2)';
@@ -209,24 +223,24 @@ export const VaultCinema = () => {
             }}
           >
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', marginBottom: '6px' }}>
-                <h4 style={{ color: '#FFF', fontFamily: 'var(--font-display, serif)', fontSize: '1.05rem', margin: 0, lineHeight: 1.2 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', marginBottom: '8px' }}>
+                <h4 style={{ color: '#FFF', fontFamily: 'var(--font-display, serif)', fontSize: '1.08rem', margin: 0, lineHeight: 1.25 }}>
                   {movie.title}
                 </h4>
-                <span style={{ fontSize: '0.7rem', color: 'var(--color-gold)', background: 'rgba(197,168,128,0.1)', padding: '2px 6px', borderRadius: '3px', whiteSpace: 'nowrap' }}>
+                <span style={{ fontSize: '0.68rem', color: 'var(--color-gold)', background: 'rgba(197,168,128,0.12)', border: '1px solid rgba(197,168,128,0.2)', padding: '2px 6px', borderRadius: '2px', whiteSpace: 'nowrap' }}>
                   {movie.year}
                 </span>
               </div>
-              <p style={{ color: 'var(--color-silver, #8E8D8A)', fontSize: '0.78rem', margin: '6px 0 12px 0', lineHeight: 1.4 }}>
+              <p style={{ color: 'var(--color-silver, #8E8D8A)', fontSize: '0.8rem', margin: '6px 0 14px 0', lineHeight: 1.45 }}>
                 "{movie.oneLiner}"
               </p>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(197, 168, 128, 0.15)', paddingTop: '10px', fontSize: '0.72rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.06)', paddingTop: '10px', fontSize: '0.72rem' }}>
               <span style={{ color: '#00ffcc', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Star size={12} fill="#00ffcc" color="#00ffcc" /> REWATCH: {movie.rewatch}
               </span>
-              <span style={{ color: 'var(--color-gold)', fontWeight: 'bold' }}>
+              <span style={{ color: 'var(--color-gold)', fontSize: '0.68rem', letterSpacing: '0.5px' }}>
                 [{movie.tag}]
               </span>
             </div>
