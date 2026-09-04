@@ -272,6 +272,7 @@
 .lightbox-nav.next { right: var(--space-4); }
 
 @media (max-width: 768px) {
+  .gallery-title { font-size: clamp(2.5rem, 8vw, 4rem); }
   .layout-magazine { display: flex; flex-direction: column; }
   .layout-timeline::before { display: none; }
   .layout-timeline .timeline-item { width: 100%; }

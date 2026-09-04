@@ -164,6 +164,10 @@
 }
 
 @media (max-width: 768px) {
+  .nav-f1-trigger {
+    display: none;
+  }
+
   .nav-links {
     display: none;
   }
